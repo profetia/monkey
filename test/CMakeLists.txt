@@ -19,7 +19,7 @@ foreach(file ${test_sources})
   # Set the compiler standard
   #
 
-  target_compile_features(${test_name}_Tests PUBLIC cxx_std_17)
+  target_compile_features(${test_name}_Tests PUBLIC cxx_std_20)
 
   #
   # Setup code coverage if enabled

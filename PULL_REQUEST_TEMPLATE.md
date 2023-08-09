@@ -55,11 +55,11 @@ screenshots / videos if the pull request changes UI.
 
 See details at [CONTRIBUTING.md](https://github.com/filipdutescu/modern-cpp-template/blob/master/CONTRIBUTING.md).
 
-* [ ] I agree to contribute to the project under [INSERT PROJECT NAME] (Unlicense)
+* [ ] I agree to contribute to the project under Monkey (Unlicense)
 [License](LICENSE).
 
 * [ ] To the best of my knowledge, the proposed patch is not based on a code under
-GPL or other license that is incompatible with [INSERT PROJECT NAME]
+GPL or other license that is incompatible with Monkey
 
 * [ ] The PR is proposed to proper branch
 

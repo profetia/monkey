@@ -51,7 +51,7 @@ enum class TokenType {
   kMacro,
 };  // enum class TokenType
 
-std::string to_string(const TokenType type);
+std::string to_string(TokenType type);
 
 class Token {
  public:

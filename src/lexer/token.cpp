@@ -3,7 +3,7 @@
 
 namespace monkey::lexer {
 
-std::string to_string(const TokenType type) {
+std::string to_string(TokenType type) {
   switch (type) {
     case TokenType::kIllegal:
       return "ILLEGAL";

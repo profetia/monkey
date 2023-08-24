@@ -69,7 +69,7 @@ std::string FunctionLiteral::to_string() const {
   for (const auto& parameter : parameters_) {
     parameters = fmt::format("{}, {}", parameters, parameter->to_string());
   }
-  return fmt::format("fn({}) {{}}", parameters, body_->to_string());
+  return fmt::format("fn({}) {{{}}}", parameters, body_->to_string());
 }
 
 bool FunctionLiteral::operator==(const Node& other) const {
@@ -120,7 +120,11 @@ ArrayLiteral::ArrayLiteral(std::vector<std::unique_ptr<Expression>> elements)
 std::string ArrayLiteral::to_string() const {
   std::string elements;
   for (const auto& element : elements_) {
-    elements = fmt::format("{}, {}", elements, element->to_string());
+    if (elements.empty()) {
+      elements = element->to_string();
+    } else {
+      elements = fmt::format("{}, {}", elements, element->to_string());
+    }
   }
   return fmt::format("[{}]", elements);
 }
@@ -151,8 +155,12 @@ HashLiteral::HashLiteral(
 std::string HashLiteral::to_string() const {
   std::string pairs;
   for (const auto& [key, value] : pairs_) {
-    pairs =
-        fmt::format("{}, {}: {}", pairs, key->to_string(), value->to_string());
+    if (pairs.empty()) {
+      pairs = fmt::format("{}: {}", key->to_string(), value->to_string());
+    } else {
+      pairs = fmt::format("{}, {}: {}", pairs, key->to_string(),
+                          value->to_string());
+    }
   }
   return fmt::format("{{{}}}", pairs);
 }
@@ -186,7 +194,7 @@ std::string MacroLiteral::to_string() const {
   for (const auto& parameter : parameters_) {
     parameters = fmt::format("{}, {}", parameters, parameter->to_string());
   }
-  return fmt::format("macro({}) {{}}", parameters, body_->to_string());
+  return fmt::format("macro({}) {{{}}}", parameters, body_->to_string());
 }
 
 bool MacroLiteral::operator==(const Node& other) const {
@@ -217,7 +225,7 @@ PrefixExpression::PrefixExpression(lexer::TokenType op,
     : op_(op), right_(std::move(right)) {}
 
 std::string PrefixExpression::to_string() const {
-  return fmt::format("({}{})", lexer::to_string(op_), right_->to_string());
+  return fmt::format("({}{})", lexer::to_operator(op_), right_->to_string());
 }
 
 bool PrefixExpression::operator==(const Node& other) const {
@@ -240,7 +248,7 @@ InfixExpression::InfixExpression(std::unique_ptr<Expression> left,
     : left_(std::move(left)), op_(op), right_(std::move(right)) {}
 
 std::string InfixExpression::to_string() const {
-  return fmt::format("({} {} {})", left_->to_string(), lexer::to_string(op_),
+  return fmt::format("({} {} {})", left_->to_string(), lexer::to_operator(op_),
                      right_->to_string());
 }
 
@@ -290,10 +298,10 @@ IfExpression::IfExpression(std::unique_ptr<Expression> condition,
 
 std::string IfExpression::to_string() const {
   if (alternative_) {
-    return fmt::format("if {} {} else {}", condition_->to_string(),
+    return fmt::format("if ({}) {{{}}} else {{{}}}", condition_->to_string(),
                        consequence_->to_string(), alternative_->to_string());
   }
-  return fmt::format("if {} {}", condition_->to_string(),
+  return fmt::format("if ({}) {{{}}}", condition_->to_string(),
                      consequence_->to_string());
 }
 
@@ -319,7 +327,11 @@ CallExpression::CallExpression(
 std::string CallExpression::to_string() const {
   std::string args;
   for (const auto& arg : arguments_) {
-    args = fmt::format("{}, {}", args, arg->to_string());
+    if (args.empty()) {
+      args = arg->to_string();
+    } else {
+      args = fmt::format("{}, {}", args, arg->to_string());
+    }
   }
   return fmt::format("{}({})", function_->to_string(), args);
 }

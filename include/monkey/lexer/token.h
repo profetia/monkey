@@ -53,6 +53,8 @@ enum class TokenType {
 
 std::string to_string(TokenType type);
 
+std::string to_operator(TokenType type);
+
 class Token {
  public:
   Token(TokenType type, std::string literal);

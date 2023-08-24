@@ -59,7 +59,11 @@ Program::Program(std::vector<std::unique_ptr<Statement>> statements)
 std::string Program::to_string() const {
   std::string statements;
   for (const auto& statement : statements_) {
-    statements = fmt::format("{}\n{}", statements, statement->to_string());
+    if (statements.empty()) {
+      statements = statement->to_string();
+    } else {
+      statements = fmt::format("{}\n{}", statements, statement->to_string());
+    }
   }
   return statements;
 }

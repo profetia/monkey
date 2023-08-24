@@ -74,6 +74,34 @@ std::string to_string(TokenType type) {
   }
 }
 
+std::string to_operator(TokenType type) {
+  switch (type) {
+    case TokenType::kAssign:
+      return "=";
+    case TokenType::kPlus:
+      return "+";
+    case TokenType::kMinus:
+      return "-";
+    case TokenType::kBang:
+      return "!";
+    case TokenType::kAsterisk:
+      return "*";
+    case TokenType::kSlash:
+      return "/";
+    case TokenType::kLessThan:
+      return "<";
+    case TokenType::kGreaterThan:
+      return ">";
+    case TokenType::kEqual:
+      return "==";
+    case TokenType::kNotEqual:
+      return "!=";
+
+    default:
+      return "UNKNOWN";
+  }
+}
+
 Token::Token(TokenType type, std::string literal)
     : type_(type), literal_(std::move(literal)) {}
 

@@ -174,9 +174,11 @@ bool HashLiteral::operator==(const Node& other) const {
     return false;
   }
   return std::ranges::all_of(pairs_, [&other_hash_literal](const auto& pair) {
-    const auto& [key, value] = pair;
-    return other_hash_literal.pairs_.contains(key) &&
-           *value == *other_hash_literal.pairs_.at(key);
+    return std::ranges::any_of(other_hash_literal.pairs_,
+                               [&pair](const auto& other_pair) {
+                                 return *pair.first == *other_pair.first &&
+                                        *pair.second == *other_pair.second;
+                               });
   });
   return true;
 }

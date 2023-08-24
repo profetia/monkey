@@ -27,6 +27,14 @@ bool LetStatement::operator==(const Node&& other) const {
   return *this == other;
 }
 
+bool LetStatement::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool LetStatement::operator!=(const Node&& other) const {
+  return *this != other;
+}
+
 ReturnStatement::ReturnStatement(std::unique_ptr<Expression> return_value)
     : return_value_(std::move(return_value)) {}
 
@@ -44,6 +52,14 @@ bool ReturnStatement::operator==(const Node& other) const {
 
 bool ReturnStatement::operator==(const Node&& other) const {
   return *this == other;
+}
+
+bool ReturnStatement::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool ReturnStatement::operator!=(const Node&& other) const {
+  return *this != other;
 }
 
 ExpressionStatement::ExpressionStatement(std::unique_ptr<Expression> expression)
@@ -64,6 +80,14 @@ bool ExpressionStatement::operator==(const Node& other) const {
 
 bool ExpressionStatement::operator==(const Node&& other) const {
   return *this == other;
+}
+
+bool ExpressionStatement::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool ExpressionStatement::operator!=(const Node&& other) const {
+  return *this != other;
 }
 
 BlockStatement::BlockStatement(
@@ -90,6 +114,14 @@ bool BlockStatement::operator==(const Node& other) const {
 
 bool BlockStatement::operator==(const Node&& other) const {
   return *this == other;
+}
+
+bool BlockStatement::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool BlockStatement::operator!=(const Node&& other) const {
+  return *this != other;
 }
 
 }  // namespace monkey::ast

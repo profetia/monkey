@@ -26,6 +26,8 @@ class LetStatement : public Statement {
 
   bool operator==(const Node& other) const override;
   bool operator==(const Node&& other) const override;
+  bool operator!=(const Node& other) const override;
+  bool operator!=(const Node&& other) const override;
 
  private:
   std::unique_ptr<Identifier> name_;
@@ -47,6 +49,8 @@ class ReturnStatement : public Statement {
 
   bool operator==(const Node& other) const override;
   bool operator==(const Node&& other) const override;
+  bool operator!=(const Node& other) const override;
+  bool operator!=(const Node&& other) const override;
 
  private:
   std::unique_ptr<Expression> return_value_;
@@ -67,6 +71,8 @@ class ExpressionStatement : public Statement {
 
   bool operator==(const Node& other) const override;
   bool operator==(const Node&& other) const override;
+  bool operator!=(const Node& other) const override;
+  bool operator!=(const Node&& other) const override;
 
  private:
   std::unique_ptr<Expression> expression_;
@@ -88,6 +94,8 @@ class BlockStatement : public Statement {
 
   bool operator==(const Node& other) const override;
   bool operator==(const Node&& other) const override;
+  bool operator!=(const Node& other) const override;
+  bool operator!=(const Node&& other) const override;
 
  private:
   std::vector<std::unique_ptr<Statement>> statements_;

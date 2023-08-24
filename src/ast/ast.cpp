@@ -83,4 +83,8 @@ bool Program::operator==(const Node& other) const {
 
 bool Program::operator==(const Node&& other) const { return *this == other; }
 
+bool Program::operator!=(const Node& other) const { return !(*this == other); }
+
+bool Program::operator!=(const Node&& other) const { return *this != other; }
+
 }  // namespace monkey::ast

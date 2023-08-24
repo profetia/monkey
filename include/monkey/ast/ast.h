@@ -43,6 +43,8 @@ class Node {
 
   virtual bool operator==(const Node& other) const = 0;
   virtual bool operator==(const Node&& other) const = 0;
+  virtual bool operator!=(const Node& other) const = 0;
+  virtual bool operator!=(const Node&& other) const = 0;
 
   friend std::string to_string(const Node& node);
   friend std::string to_string(const Node&& node);
@@ -83,6 +85,8 @@ class Program : public Node {
 
   bool operator==(const Node& other) const override;
   bool operator==(const Node&& other) const override;
+  bool operator!=(const Node& other) const override;
+  bool operator!=(const Node&& other) const override;
 
  private:
   std::vector<std::unique_ptr<Statement>> statements_;

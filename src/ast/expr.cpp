@@ -21,6 +21,12 @@ bool Identifier::operator==(const Node& other) const {
 
 bool Identifier::operator==(const Node&& other) const { return *this == other; }
 
+bool Identifier::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool Identifier::operator!=(const Node&& other) const { return *this != other; }
+
 IntegerLiteral::IntegerLiteral(int64_t value) : value_(value) {}
 
 std::string IntegerLiteral::to_string() const {
@@ -40,6 +46,14 @@ bool IntegerLiteral::operator==(const Node&& other) const {
   return *this == other;
 }
 
+bool IntegerLiteral::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool IntegerLiteral::operator!=(const Node&& other) const {
+  return *this != other;
+}
+
 BooleanLiteral::BooleanLiteral(bool value) : value_(value) {}
 
 std::string BooleanLiteral::to_string() const {
@@ -57,6 +71,14 @@ bool BooleanLiteral::operator==(const Node& other) const {
 
 bool BooleanLiteral::operator==(const Node&& other) const {
   return *this == other;
+}
+
+bool BooleanLiteral::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool BooleanLiteral::operator!=(const Node&& other) const {
+  return *this != other;
 }
 
 FunctionLiteral::FunctionLiteral(
@@ -96,6 +118,14 @@ bool FunctionLiteral::operator==(const Node&& other) const {
   return *this == other;
 }
 
+bool FunctionLiteral::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool FunctionLiteral::operator!=(const Node&& other) const {
+  return *this != other;
+}
+
 StringLiteral::StringLiteral(std::string value) : value_(std::move(value)) {}
 
 std::string StringLiteral::to_string() const {
@@ -112,6 +142,14 @@ bool StringLiteral::operator==(const Node& other) const {
 
 bool StringLiteral::operator==(const Node&& other) const {
   return *this == other;
+}
+
+bool StringLiteral::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool StringLiteral::operator!=(const Node&& other) const {
+  return *this != other;
 }
 
 ArrayLiteral::ArrayLiteral(std::vector<std::unique_ptr<Expression>> elements)
@@ -145,6 +183,14 @@ bool ArrayLiteral::operator==(const Node& other) const {
 
 bool ArrayLiteral::operator==(const Node&& other) const {
   return *this == other;
+}
+
+bool ArrayLiteral::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool ArrayLiteral::operator!=(const Node&& other) const {
+  return *this != other;
 }
 
 HashLiteral::HashLiteral(
@@ -187,6 +233,14 @@ bool HashLiteral::operator==(const Node&& other) const {
   return *this == other;
 }
 
+bool HashLiteral::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool HashLiteral::operator!=(const Node&& other) const {
+  return *this != other;
+}
+
 MacroLiteral::MacroLiteral(std::vector<std::unique_ptr<Identifier>> parameters,
                            std::unique_ptr<BlockStatement> body)
     : parameters_(std::move(parameters)), body_(std::move(body)) {}
@@ -222,6 +276,14 @@ bool MacroLiteral::operator==(const Node&& other) const {
   return *this == other;
 }
 
+bool MacroLiteral::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool MacroLiteral::operator!=(const Node&& other) const {
+  return *this != other;
+}
+
 PrefixExpression::PrefixExpression(lexer::TokenType op,
                                    std::unique_ptr<Expression> right)
     : op_(op), right_(std::move(right)) {}
@@ -242,6 +304,14 @@ bool PrefixExpression::operator==(const Node& other) const {
 
 bool PrefixExpression::operator==(const Node&& other) const {
   return *this == other;
+}
+
+bool PrefixExpression::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool PrefixExpression::operator!=(const Node&& other) const {
+  return *this != other;
 }
 
 InfixExpression::InfixExpression(std::unique_ptr<Expression> left,
@@ -269,6 +339,14 @@ bool InfixExpression::operator==(const Node&& other) const {
   return *this == other;
 }
 
+bool InfixExpression::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool InfixExpression::operator!=(const Node&& other) const {
+  return *this != other;
+}
+
 IndexExpression::IndexExpression(std::unique_ptr<Expression> left,
                                  std::unique_ptr<Expression> index)
     : left_(std::move(left)), index_(std::move(index)) {}
@@ -289,6 +367,14 @@ bool IndexExpression::operator==(const Node& other) const {
 
 bool IndexExpression::operator==(const Node&& other) const {
   return *this == other;
+}
+
+bool IndexExpression::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool IndexExpression::operator!=(const Node&& other) const {
+  return *this != other;
 }
 
 IfExpression::IfExpression(std::unique_ptr<Expression> condition,
@@ -319,6 +405,14 @@ bool IfExpression::operator==(const Node& other) const {
 
 bool IfExpression::operator==(const Node&& other) const {
   return *this == other;
+}
+
+bool IfExpression::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool IfExpression::operator!=(const Node&& other) const {
+  return *this != other;
 }
 
 CallExpression::CallExpression(
@@ -359,6 +453,14 @@ bool CallExpression::operator==(const Node& other) const {
 
 bool CallExpression::operator==(const Node&& other) const {
   return *this == other;
+}
+
+bool CallExpression::operator!=(const Node& other) const {
+  return !(*this == other);
+}
+
+bool CallExpression::operator!=(const Node&& other) const {
+  return *this != other;
 }
 
 }  // namespace monkey::ast

@@ -1,5 +1,9 @@
+#include <monkey/lexer/lexer.h>
+#include <monkey/lexer/token.h>
 #include <monkey/parser/error.h>
 #include <monkey/parser/reader.h>
+
+#include <utility>
 
 namespace monkey::parser {
 

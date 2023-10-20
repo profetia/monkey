@@ -1,6 +1,17 @@
+#include <monkey/ast/expr.h>
+#include <monkey/ast/stmt.h>
+#include <monkey/lexer/token.h>
 #include <monkey/parser/error.h>
 #include <monkey/parser/expr.h>
+#include <monkey/parser/reader.h>
 #include <monkey/parser/stmt.h>
+
+#include <memory>
+#include <stdexcept>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 namespace monkey::parser {
 

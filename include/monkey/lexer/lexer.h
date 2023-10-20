@@ -5,6 +5,7 @@
 
 #include <iterator>
 #include <memory>
+#include <string>
 
 namespace monkey::lexer {
 
@@ -20,7 +21,7 @@ class Lexer {
   [[nodiscard]] Iterator cend() const;
 
  private:
-  const std::string input_;
+  std::string input_;
 };
 
 class Lexer::Iterator : public std::iterator<std::forward_iterator_tag, Token> {
@@ -59,6 +60,9 @@ class Lexer::Iterator::IteratorImpl {
                std::string::const_iterator end_location);
   IteratorImpl(const IteratorImpl& other) = default;
   IteratorImpl(IteratorImpl&& other) noexcept = default;
+  IteratorImpl& operator=(const IteratorImpl& other) = default;
+  IteratorImpl& operator=(IteratorImpl&& other) noexcept = default;
+  ~IteratorImpl() = default;
 
   bool operator==(const IteratorImpl& rhs) const;
   bool operator==(const IteratorImpl&& rhs) const;
@@ -70,7 +74,7 @@ class Lexer::Iterator::IteratorImpl {
  private:
   std::string::const_iterator current_location_;
   std::string::const_iterator peek_location_;
-  const std::string::const_iterator end_location_;
+  std::string::const_iterator end_location_;
 
   [[nodiscard]] char current_char() const;
   [[nodiscard]] char peek_char() const;

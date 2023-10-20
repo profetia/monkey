@@ -1,4 +1,12 @@
 #include <monkey/lexer/lexer.h>
+#include <monkey/lexer/token.h>
+
+#include <cctype>
+#include <cstddef>
+#include <iterator>
+#include <memory>
+#include <string>
+#include <utility>
 
 namespace monkey::lexer {
 

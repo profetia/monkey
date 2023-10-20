@@ -4,7 +4,11 @@
 #include <monkey/ast/ast.h>
 #include <monkey/lexer/token.h>
 
+#include <cstdint>
+#include <memory>
+#include <string>
 #include <unordered_map>
+#include <vector>
 
 namespace monkey::ast {
 

@@ -1,9 +1,17 @@
 #include <fmt/core.h>
+#include <monkey/ast/ast.h>
 #include <monkey/ast/expr.h>
 #include <monkey/ast/stmt.h>
+#include <monkey/lexer/token.h>
 
 #include <algorithm>
+#include <cstdint>
+#include <memory>
 #include <ranges>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 namespace monkey::ast {
 

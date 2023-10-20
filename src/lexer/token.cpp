@@ -1,6 +1,9 @@
 #include <fmt/core.h>
 #include <monkey/lexer/token.h>
 
+#include <string>
+#include <utility>
+
 namespace monkey::lexer {
 
 std::string to_string(TokenType type) {

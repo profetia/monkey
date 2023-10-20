@@ -1,8 +1,13 @@
 #include <fmt/core.h>
+#include <monkey/ast/ast.h>
 #include <monkey/ast/expr.h>
 #include <monkey/ast/stmt.h>
 
-#include <ranges>
+#include <algorithm>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 namespace monkey::ast {
 

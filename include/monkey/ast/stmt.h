@@ -3,6 +3,10 @@
 
 #include <monkey/ast/ast.h>
 
+#include <memory>
+#include <string>
+#include <vector>
+
 namespace monkey::ast {
 
 class Statement : public Node {};

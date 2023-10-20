@@ -1,9 +1,10 @@
 #ifndef MONKEY_PARSER_ERROR_H_
 #define MONKEY_PARSER_ERROR_H_
 
-#include <monkey/lexer/lexer.h>
+#include <monkey/lexer/token.h>
 
 #include <exception>
+#include <string>
 
 namespace monkey::parser {
 
@@ -33,8 +34,7 @@ class HandlerNotFoundError : public ParserError {
 class InvalidIntegerError : public ParserError {
  public:
   explicit InvalidIntegerError(const std::string& literal);
-  explicit InvalidIntegerError(std::string&& literal)
-      : InvalidIntegerError(literal) {}
+  explicit InvalidIntegerError(std::string&& literal);
 };
 
 }  // namespace monkey::parser

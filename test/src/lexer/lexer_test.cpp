@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <monkey/lexer/lexer.h>
+#include <monkey/lexer/token.h>
 
-#include <ranges>
+#include <algorithm>
+#include <vector>
 
 namespace monkey::lexer {
 

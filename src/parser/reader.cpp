@@ -21,11 +21,7 @@ bool Reader ::operator==(const Reader &rhs) const {
          end_location_ == rhs.end_location_;
 }
 
-bool Reader::operator==(const Reader &&rhs) const { return *this == rhs; }
-
 bool Reader::operator!=(const Reader &rhs) const { return !(*this == rhs); }
-
-bool Reader::operator!=(const Reader &&rhs) const { return *this != rhs; }
 
 void Reader::next_token() {
   current_location_ = peek_location_;

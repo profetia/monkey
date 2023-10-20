@@ -55,8 +55,6 @@ std::string to_string(NodeType type) {
 
 std::string to_string(const Node& node) { return node.to_string(); }
 
-std::string to_string(const Node&& node) { return node.to_string(); }
-
 Program::Program(std::vector<std::unique_ptr<Statement>> statements)
     : statements_(std::move(statements)) {}
 
@@ -85,10 +83,6 @@ bool Program::operator==(const Node& other) const {
       [](const auto& lhs, const auto& rhs) { return *lhs == *rhs; });
 }
 
-bool Program::operator==(const Node&& other) const { return *this == other; }
-
 bool Program::operator!=(const Node& other) const { return !(*this == other); }
-
-bool Program::operator!=(const Node&& other) const { return *this != other; }
 
 }  // namespace monkey::ast

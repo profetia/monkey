@@ -13,9 +13,7 @@ class Reader {
          lexer::Lexer::Iterator end_location);
 
   bool operator==(const Reader& rhs) const;
-  bool operator==(const Reader&& rhs) const;
   bool operator!=(const Reader& rhs) const;
-  bool operator!=(const Reader&& rhs) const;
 
   void next_token();
 

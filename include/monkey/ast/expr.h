@@ -24,9 +24,7 @@ class Identifier : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::string name_;
@@ -44,9 +42,7 @@ class IntegerLiteral : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   int64_t value_;
@@ -64,9 +60,7 @@ class BooleanLiteral : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   bool value_;
@@ -91,9 +85,7 @@ class FunctionLiteral : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::vector<std::unique_ptr<Identifier>> parameters_;
@@ -112,9 +104,7 @@ class StringLiteral : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::string value_;
@@ -135,9 +125,7 @@ class ArrayLiteral : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::vector<std::unique_ptr<Expression>> elements_;
@@ -161,9 +149,7 @@ class HashLiteral : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::unordered_map<std::unique_ptr<Expression>, std::unique_ptr<Expression>>
@@ -187,9 +173,7 @@ class MacroLiteral : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::vector<std::unique_ptr<Identifier>> parameters_;
@@ -211,9 +195,7 @@ class PrefixExpression : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   lexer::TokenType op_;
@@ -239,9 +221,7 @@ class InfixExpression : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::unique_ptr<Expression> left_;
@@ -267,9 +247,7 @@ class IndexExpression : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::unique_ptr<Expression> left_;
@@ -298,9 +276,7 @@ class IfExpression : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::unique_ptr<Expression> condition_;
@@ -327,9 +303,7 @@ class CallExpression : public Expression {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::unique_ptr<Expression> function_;

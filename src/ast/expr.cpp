@@ -27,13 +27,9 @@ bool Identifier::operator==(const Node& other) const {
   return name_ == other_identifier.name_;
 }
 
-bool Identifier::operator==(const Node&& other) const { return *this == other; }
-
 bool Identifier::operator!=(const Node& other) const {
   return !(*this == other);
 }
-
-bool Identifier::operator!=(const Node&& other) const { return *this != other; }
 
 IntegerLiteral::IntegerLiteral(int64_t value) : value_(value) {}
 
@@ -50,16 +46,8 @@ bool IntegerLiteral::operator==(const Node& other) const {
   return value_ == other_integer_literal.value_;
 }
 
-bool IntegerLiteral::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool IntegerLiteral::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool IntegerLiteral::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 BooleanLiteral::BooleanLiteral(bool value) : value_(value) {}
@@ -77,16 +65,8 @@ bool BooleanLiteral::operator==(const Node& other) const {
   return value_ == other_boolean_literal.value_;
 }
 
-bool BooleanLiteral::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool BooleanLiteral::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool BooleanLiteral::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 FunctionLiteral::FunctionLiteral(
@@ -122,16 +102,8 @@ bool FunctionLiteral::operator==(const Node& other) const {
   return body_->operator==(*other_function_literal.body_);
 }
 
-bool FunctionLiteral::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool FunctionLiteral::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool FunctionLiteral::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 StringLiteral::StringLiteral(std::string value) : value_(std::move(value)) {}
@@ -148,16 +120,8 @@ bool StringLiteral::operator==(const Node& other) const {
   return value_ == other_string_literal.value_;
 }
 
-bool StringLiteral::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool StringLiteral::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool StringLiteral::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 ArrayLiteral::ArrayLiteral(std::vector<std::unique_ptr<Expression>> elements)
@@ -189,16 +153,8 @@ bool ArrayLiteral::operator==(const Node& other) const {
       [](const auto& lhs, const auto& rhs) { return *lhs == *rhs; });
 }
 
-bool ArrayLiteral::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool ArrayLiteral::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool ArrayLiteral::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 HashLiteral::HashLiteral(
@@ -237,16 +193,8 @@ bool HashLiteral::operator==(const Node& other) const {
   return true;
 }
 
-bool HashLiteral::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool HashLiteral::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool HashLiteral::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 MacroLiteral::MacroLiteral(std::vector<std::unique_ptr<Identifier>> parameters,
@@ -280,16 +228,8 @@ bool MacroLiteral::operator==(const Node& other) const {
   return body_->operator==(*other_macro_literal.body_);
 }
 
-bool MacroLiteral::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool MacroLiteral::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool MacroLiteral::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 PrefixExpression::PrefixExpression(lexer::TokenType op,
@@ -310,16 +250,8 @@ bool PrefixExpression::operator==(const Node& other) const {
          *right_ == *other_prefix_expression.right_;
 }
 
-bool PrefixExpression::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool PrefixExpression::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool PrefixExpression::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 InfixExpression::InfixExpression(std::unique_ptr<Expression> left,
@@ -343,16 +275,8 @@ bool InfixExpression::operator==(const Node& other) const {
          *right_ == *other_infix_expression.right_;
 }
 
-bool InfixExpression::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool InfixExpression::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool InfixExpression::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 IndexExpression::IndexExpression(std::unique_ptr<Expression> left,
@@ -373,16 +297,8 @@ bool IndexExpression::operator==(const Node& other) const {
          *index_ == *other_index_expression.index_;
 }
 
-bool IndexExpression::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool IndexExpression::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool IndexExpression::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 IfExpression::IfExpression(std::unique_ptr<Expression> condition,
@@ -411,16 +327,8 @@ bool IfExpression::operator==(const Node& other) const {
          alternative_->operator==(*other_if_expression.alternative_);
 }
 
-bool IfExpression::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool IfExpression::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool IfExpression::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 CallExpression::CallExpression(
@@ -459,16 +367,8 @@ bool CallExpression::operator==(const Node& other) const {
   return *function_ == *other_call_expression.function_;
 }
 
-bool CallExpression::operator==(const Node&& other) const {
-  return *this == other;
-}
-
 bool CallExpression::operator!=(const Node& other) const {
   return !(*this == other);
-}
-
-bool CallExpression::operator!=(const Node&& other) const {
-  return *this != other;
 }
 
 }  // namespace monkey::ast

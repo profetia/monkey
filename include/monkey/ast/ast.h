@@ -42,12 +42,9 @@ class Node {
   virtual std::string to_string() const = 0;
 
   virtual bool operator==(const Node& other) const = 0;
-  virtual bool operator==(const Node&& other) const = 0;
   virtual bool operator!=(const Node& other) const = 0;
-  virtual bool operator!=(const Node&& other) const = 0;
 
   friend std::string to_string(const Node& node);
-  friend std::string to_string(const Node&& node);
 };
 
 class Statement;
@@ -84,9 +81,7 @@ class Program : public Node {
   [[nodiscard]] std::string to_string() const override;
 
   bool operator==(const Node& other) const override;
-  bool operator==(const Node&& other) const override;
   bool operator!=(const Node& other) const override;
-  bool operator!=(const Node&& other) const override;
 
  private:
   std::vector<std::unique_ptr<Statement>> statements_;

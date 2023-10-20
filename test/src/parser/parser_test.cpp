@@ -1,9 +1,18 @@
 #include <gtest/gtest.h>
-#include <monkey/parser/error.h>
+#include <monkey/ast/ast.h>
+#include <monkey/ast/expr.h>
+#include <monkey/ast/stmt.h>
+#include <monkey/lexer/lexer.h>
+#include <monkey/lexer/token.h>
 #include <monkey/parser/parser.h>
 
-#include <concepts>
-#include <ranges>
+#include <algorithm>
+#include <memory>
+#include <string>
+#include <type_traits>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 namespace monkey::parser {
 

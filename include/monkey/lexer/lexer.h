@@ -40,9 +40,7 @@ class Lexer::Iterator : public std::iterator<std::forward_iterator_tag, Token> {
   Iterator operator++(int);
 
   bool operator==(const Iterator& rhs) const;
-  bool operator==(const Iterator&& rhs) const;
   bool operator!=(const Iterator& rhs) const;
-  bool operator!=(const Iterator&& rhs) const;
 
   Token operator*() const;
   Token operator->() const;
@@ -65,9 +63,7 @@ class Lexer::Iterator::IteratorImpl {
   ~IteratorImpl() = default;
 
   bool operator==(const IteratorImpl& rhs) const;
-  bool operator==(const IteratorImpl&& rhs) const;
   bool operator!=(const IteratorImpl& rhs) const;
-  bool operator!=(const IteratorImpl&& rhs) const;
 
   Token next_token();
 

@@ -57,16 +57,8 @@ bool Lexer::Iterator::operator==(const Iterator &rhs) const {
   return *impl_ == *rhs.impl_;
 }
 
-bool Lexer::Iterator::operator==(const Iterator &&rhs) const {
-  return *impl_ == *rhs.impl_;
-}
-
 bool Lexer::Iterator::operator!=(const Iterator &rhs) const {
   return !(*this == rhs);
-}
-
-bool Lexer::Iterator::operator!=(const Iterator &&rhs) const {
-  return *this != rhs;
 }
 
 Token Lexer::Iterator::operator*() const {
@@ -91,16 +83,8 @@ bool Lexer::Iterator::IteratorImpl::operator==(const IteratorImpl &rhs) const {
          end_location_ == rhs.end_location_;
 }
 
-bool Lexer::Iterator::IteratorImpl::operator==(const IteratorImpl &&rhs) const {
-  return *this == rhs;
-}
-
 bool Lexer::Iterator::IteratorImpl::operator!=(const IteratorImpl &rhs) const {
   return !(*this == rhs);
-}
-
-bool Lexer::Iterator::IteratorImpl::operator!=(const IteratorImpl &&rhs) const {
-  return *this != rhs;
 }
 
 Token Lexer::Iterator::IteratorImpl::next_token() {

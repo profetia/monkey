@@ -11,7 +11,6 @@ namespace monkey::parser {
 class Parser {
  public:
   explicit Parser(const lexer::Lexer& lexer);
-  explicit Parser(const lexer::Lexer&& lexer);
 
   std::unique_ptr<ast::Program> parse_program();
 

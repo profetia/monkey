@@ -112,17 +112,11 @@ bool Token::operator==(const Token &rhs) const {
   return type_ == rhs.type_ && literal_ == rhs.literal_;
 }
 
-bool Token::operator==(const Token &&rhs) const { return *this == rhs; }
-
 bool Token::operator!=(const Token &rhs) const { return !(*this == rhs); }
-
-bool Token::operator!=(const Token &&rhs) const { return *this != rhs; }
 
 std::string to_string(const Token &token) {
   return fmt::format("Token({}: \"{}\")", to_string(token.type()),
                      token.literal());
 }
-
-std::string to_string(const Token &&token) { return to_string(token); }
 
 }  // namespace monkey::lexer

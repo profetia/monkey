@@ -60,15 +60,12 @@ class Token {
   Token(TokenType type, std::string literal);
 
   bool operator==(const Token& rhs) const;
-  bool operator==(const Token&& rhs) const;
   bool operator!=(const Token& rhs) const;
-  bool operator!=(const Token&& rhs) const;
 
   [[nodiscard]] TokenType type() const { return type_; }
   [[nodiscard]] std::string literal() const { return literal_; }
 
   friend std::string to_string(const Token& token);
-  friend std::string to_string(const Token&& token);
 
  private:
   TokenType type_;

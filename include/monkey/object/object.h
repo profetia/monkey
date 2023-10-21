@@ -19,7 +19,7 @@ enum class ObjectType {
   kInteger,
   kBoolean,
   kNull,
-  kReturn,
+  kReturnValue,
   kFunction,
   kString,
   kArray,
@@ -101,11 +101,13 @@ class Null : public Object {
   bool operator!=(const Object& other) const override;
 };
 
-class Return : public Object {
+class ReturnValue : public Object {
  public:
-  explicit Return(std::unique_ptr<Object> value);
+  explicit ReturnValue(std::unique_ptr<Object> value);
 
-  [[nodiscard]] ObjectType type() const override { return ObjectType::kReturn; }
+  [[nodiscard]] ObjectType type() const override {
+    return ObjectType::kReturnValue;
+  }
 
   [[nodiscard]] std::string to_string() const override;
 
@@ -224,7 +226,7 @@ class Builtin : public Object {
   using FunctionType =
       std::unique_ptr<Object>(std::vector<std::unique_ptr<Object>>);
 
-  explicit Builtin(FunctionType fn);
+  explicit Builtin(FunctionType* fn);
 
   [[nodiscard]] ObjectType type() const override {
     return ObjectType::kBuiltin;

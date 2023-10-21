@@ -23,7 +23,7 @@ std::string to_string(ObjectType type) {
       return "BOOLEAN";
     case ObjectType::kNull:
       return "NULL";
-    case ObjectType::kReturn:
+    case ObjectType::kReturnValue:
       return "RETURN";
     case ObjectType::kFunction:
       return "FUNCTION";
@@ -90,18 +90,21 @@ bool Null::operator==(const Object& other) const {
 
 bool Null::operator!=(const Object& other) const { return !(*this == other); }
 
-Return::Return(std::unique_ptr<Object> value) : value_(std::move(value)) {}
+ReturnValue::ReturnValue(std::unique_ptr<Object> value)
+    : value_(std::move(value)) {}
 
-std::string Return::to_string() const { return value_->to_string(); }
+std::string ReturnValue::to_string() const { return value_->to_string(); }
 
-bool Return::operator==(const Object& other) const {
-  if (other.type() != ObjectType::kReturn) {
+bool ReturnValue::operator==(const Object& other) const {
+  if (other.type() != ObjectType::kReturnValue) {
     return false;
   }
-  return *value_ == *dynamic_cast<const Return&>(other).value_;
+  return *value_ == *dynamic_cast<const ReturnValue&>(other).value_;
 }
 
-bool Return::operator!=(const Object& other) const { return !(*this == other); }
+bool ReturnValue::operator!=(const Object& other) const {
+  return !(*this == other);
+}
 
 Function::Function(std::vector<std::unique_ptr<ast::Identifier>> parameters,
                    std::unique_ptr<ast::BlockStatement> body,

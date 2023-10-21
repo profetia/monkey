@@ -35,6 +35,7 @@ std::string to_string(NodeType type);
 
 class Node {
  public:
+  Node() = default;
   Node(const Node&) = default;
   Node(Node&&) = default;
   Node& operator=(const Node&) = default;

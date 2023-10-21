@@ -9,6 +9,8 @@ set(sources
     src/parser/parser.cpp
     src/parser/reader.cpp
     src/parser/stmt.cpp
+    src/object/object.cpp
+    src/object/env.cpp
 )
 
 set(exe_sources
@@ -27,6 +29,8 @@ set(headers
     include/monkey/parser/parser.h
     include/monkey/parser/reader.h
     include/monkey/parser/stmt.h
+    include/monkey/object/object.h
+    include/monkey/object/env.h
 )
 
 set(test_sources

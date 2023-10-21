@@ -35,11 +35,15 @@ std::string to_string(NodeType type);
 
 class Node {
  public:
+  Node(const Node&) = default;
+  Node(Node&&) = default;
+  Node& operator=(const Node&) = default;
+  Node& operator=(Node&&) = default;
   virtual ~Node() = default;
 
-  virtual NodeType type() const = 0;
+  [[nodiscard]] virtual NodeType type() const = 0;
 
-  virtual std::string to_string() const = 0;
+  [[nodiscard]] virtual std::string to_string() const = 0;
 
   virtual bool operator==(const Node& other) const = 0;
   virtual bool operator!=(const Node& other) const = 0;
@@ -63,7 +67,6 @@ class HashLiteral;
 class PrefixExpression;
 class InfixExpression;
 class IfExpression;
-class WhileExpression;
 class FunctionLiteral;
 class CallExpression;
 class IndexExpression;

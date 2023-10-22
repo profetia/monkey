@@ -212,7 +212,7 @@ bool Hash::operator==(const Object& other) const {
 
 bool Hash::operator!=(const Object& other) const { return !(*this == other); }
 
-Builtin::Builtin(Builtin::FunctionType* fn) : fn_(std::move(fn)) {}
+Builtin::Builtin(Builtin::FunctionType* fn) : function_(std::move(fn)) {}
 
 std::string Builtin::to_string() const { return "builtin function"; }
 
@@ -220,7 +220,7 @@ bool Builtin::operator==(const Object& other) const {
   if (other.type() != ObjectType::kBuiltin) {
     return false;
   }
-  return fn_ == dynamic_cast<const Builtin&>(other).fn_;
+  return function_ == dynamic_cast<const Builtin&>(other).function_;
 }
 
 bool Builtin::operator!=(const Object& other) const {

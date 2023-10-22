@@ -11,11 +11,11 @@ class Object;
 
 class Env {
  public:
-  explicit Env(std::shared_ptr<Env> outer = nullptr);
+  Env();
+  explicit Env(std::shared_ptr<Env> outer);
 
   void set(const std::string &name, std::shared_ptr<Object> value);
-  std::shared_ptr<Object> get(const std::string &name);
-  bool contains(const std::string &name) const;
+  std::shared_ptr<Object> get(const std::string &name) const;
 
  private:
   std::unordered_map<std::string, std::shared_ptr<Object>> store_;

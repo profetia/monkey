@@ -1,0 +1,4 @@
+#ifndef MONKEY_EVAL_MACRO_H_
+#define MONKEY_EVAL_MACRO_H_
+
+#endif  // MONKEY_EVAL_MACRO_H_

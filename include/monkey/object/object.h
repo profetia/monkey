@@ -223,8 +223,8 @@ class Hash : public Object {
 
 class Builtin : public Object {
  public:
-  using FunctionType =
-      std::shared_ptr<Object>(std::vector<std::shared_ptr<Object>>);
+  using FunctionType = std::shared_ptr<Object>(
+      const std::vector<std::shared_ptr<object::Object>>&);
 
   explicit Builtin(FunctionType* fn);
 
@@ -237,10 +237,10 @@ class Builtin : public Object {
   bool operator==(const Object& other) const override;
   bool operator!=(const Object& other) const override;
 
-  [[nodiscard]] FunctionType* fn() const { return fn_; }
+  [[nodiscard]] FunctionType* function() const { return function_; }
 
  private:
-  FunctionType* fn_;
+  FunctionType* function_;
 };
 
 class Error : public Object {

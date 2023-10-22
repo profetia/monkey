@@ -9,11 +9,11 @@ namespace monkey::object {
 
 Env::Env(std::shared_ptr<Env> outer) : outer_(std::move(outer)) {}
 
-void Env::set(const std::string &name, std::unique_ptr<Object> value) {
+void Env::set(const std::string &name, std::shared_ptr<Object> value) {
   store_[name] = std::move(value);
 }
 
-std::unique_ptr<Object> Env::get(const std::string &name) {
+std::shared_ptr<Object> Env::get(const std::string &name) {
   auto it = store_.find(name);
   if (it == store_.end()) {
     return nullptr;

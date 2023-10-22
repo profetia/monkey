@@ -103,7 +103,7 @@ class Null : public Object {
 
 class ReturnValue : public Object {
  public:
-  explicit ReturnValue(std::unique_ptr<Object> value);
+  explicit ReturnValue(std::shared_ptr<Object> value);
 
   [[nodiscard]] ObjectType type() const override {
     return ObjectType::kReturnValue;
@@ -114,10 +114,10 @@ class ReturnValue : public Object {
   bool operator==(const Object& other) const override;
   bool operator!=(const Object& other) const override;
 
-  [[nodiscard]] const std::unique_ptr<Object>& value() const { return value_; }
+  [[nodiscard]] const std::shared_ptr<Object>& value() const { return value_; }
 
  private:
-  std::unique_ptr<Object> value_;
+  std::shared_ptr<Object> value_;
 };
 
 class Function : public Object {
@@ -170,7 +170,7 @@ class String : public Object {
 
 class Array : public Object {
  public:
-  explicit Array(std::vector<std::unique_ptr<Object>> elements);
+  explicit Array(std::vector<std::shared_ptr<Object>> elements);
 
   [[nodiscard]] ObjectType type() const override { return ObjectType::kArray; }
 
@@ -179,31 +179,31 @@ class Array : public Object {
   bool operator==(const Object& other) const override;
   bool operator!=(const Object& other) const override;
 
-  [[nodiscard]] const std::vector<std::unique_ptr<Object>>& elements() const {
+  [[nodiscard]] const std::vector<std::shared_ptr<Object>>& elements() const {
     return elements_;
   }
 
  private:
-  std::vector<std::unique_ptr<Object>> elements_;
+  std::vector<std::shared_ptr<Object>> elements_;
 };
 
 class Hash : public Object {
  public:
   struct ObjectHasher {
-    size_t operator()(const std::unique_ptr<Object>& obj) const {
+    size_t operator()(const std::shared_ptr<Object>& obj) const {
       return std::hash<std::string>{}(obj->to_string());
     }
   };
 
   struct ObjectComparator {
-    bool operator()(const std::unique_ptr<Object>& lhs,
-                    const std::unique_ptr<Object>& rhs) const {
+    bool operator()(const std::shared_ptr<Object>& lhs,
+                    const std::shared_ptr<Object>& rhs) const {
       return *lhs == *rhs;
     }
   };
 
   using HashType =
-      std::unordered_map<std::unique_ptr<Object>, std::unique_ptr<Object>,
+      std::unordered_map<std::shared_ptr<Object>, std::shared_ptr<Object>,
                          ObjectHasher, ObjectComparator>;
 
   explicit Hash(HashType pairs);
@@ -224,7 +224,7 @@ class Hash : public Object {
 class Builtin : public Object {
  public:
   using FunctionType =
-      std::unique_ptr<Object>(std::vector<std::unique_ptr<Object>>);
+      std::shared_ptr<Object>(std::vector<std::shared_ptr<Object>>);
 
   explicit Builtin(FunctionType* fn);
 

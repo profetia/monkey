@@ -7,7 +7,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <memory>
-#include <ranges>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -90,7 +89,7 @@ bool Null::operator==(const Object& other) const {
 
 bool Null::operator!=(const Object& other) const { return !(*this == other); }
 
-ReturnValue::ReturnValue(std::unique_ptr<Object> value)
+ReturnValue::ReturnValue(std::shared_ptr<Object> value)
     : value_(std::move(value)) {}
 
 std::string ReturnValue::to_string() const { return value_->to_string(); }
@@ -155,7 +154,7 @@ bool String::operator==(const Object& other) const {
 
 bool String::operator!=(const Object& other) const { return !(*this == other); }
 
-Array::Array(std::vector<std::unique_ptr<Object>> elements)
+Array::Array(std::vector<std::shared_ptr<Object>> elements)
     : elements_(std::move(elements)) {}
 
 std::string Array::to_string() const {

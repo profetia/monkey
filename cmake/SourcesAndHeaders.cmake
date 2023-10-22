@@ -1,18 +1,18 @@
 set(sources
-    src/lexer/lexer.cpp
-    src/lexer/token.cpp
-    src/ast/ast.cpp
-    src/ast/expr.cpp
-    src/ast/stmt.cpp
-    src/parser/error.cpp
-    src/parser/expr.cpp
-    src/parser/parser.cpp
-    src/parser/reader.cpp
-    src/parser/stmt.cpp
-    src/object/object.cpp
-    src/object/env.cpp
-    src/eval/eval.cpp
-    src/eval/builtin.cpp
+    lib/lexer/lexer.cpp
+    lib/lexer/token.cpp
+    lib/ast/ast.cpp
+    lib/ast/expr.cpp
+    lib/ast/stmt.cpp
+    lib/parser/error.cpp
+    lib/parser/expr.cpp
+    lib/parser/parser.cpp
+    lib/parser/reader.cpp
+    lib/parser/stmt.cpp
+    lib/object/object.cpp
+    lib/object/env.cpp
+    lib/eval/eval.cpp
+    lib/eval/builtin.cpp
 )
 
 set(exe_sources

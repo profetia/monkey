@@ -362,28 +362,6 @@ TEST(MonkeyParserTest, HashLiteralExpression) {
       }));
 }
 
-TEST(MonkeyParserTest, MacroLiteralExpression) {
-  auto inputs = std::vector<std::string>{"macro(x, y) { x + y; }"};
-  auto expects =
-      make_vector<ast::Program>(ast::Program(make_vector<ast::Statement>(
-          ast::ExpressionStatement(std::make_unique<ast::MacroLiteral>(
-              make_vector<ast::Identifier>(ast::Identifier("x"),
-                                           ast::Identifier("y")),
-              std::make_unique<ast::BlockStatement>(
-                  make_vector<ast::Statement>(ast::ExpressionStatement(
-                      std::make_unique<ast::InfixExpression>(
-                          std::make_unique<ast::Identifier>("x"),
-                          lexer::TokenType::kPlus,
-                          std::make_unique<ast::Identifier>("y"))))))))));
-
-  ASSERT_TRUE(
-      std::ranges::equal(inputs, expects, [](const auto& lhs, const auto& rhs) {
-        auto lexer = lexer::Lexer(lhs);
-        auto program = Parser(lexer).parse_program();
-        return program->operator==(*rhs);
-      }));
-}
-
 TEST(MonkeyParserTest, IfExpression) {
   auto inputs = std::vector<std::string>{"if (x < y) { x } else { y }"};
   auto expects =

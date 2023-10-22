@@ -36,10 +36,6 @@ std::string to_string(ObjectType type) {
       return "BUILTIN";
     case ObjectType::kError:
       return "ERROR";
-    case ObjectType::kQuote:
-      return "QUOTE";
-    case ObjectType::kMacro:
-      return "MACRO";
     default:
       return "UNKNOWN";
   }
@@ -239,54 +235,5 @@ bool Error::operator==(const Object& other) const {
 }
 
 bool Error::operator!=(const Object& other) const { return !(*this == other); }
-
-Quote::Quote(std::shared_ptr<ast::Node> node) : node_(std::move(node)) {}
-
-std::string Quote::to_string() const {
-  return "QUOTE(" + node_->to_string() + ")";
-}
-
-bool Quote::operator==(const Object& other) const {
-  if (other.type() != ObjectType::kQuote) {
-    return false;
-  }
-  return *node_ == *dynamic_cast<const Quote&>(other).node_;
-}
-
-bool Quote::operator!=(const Object& other) const { return !(*this == other); }
-
-Macro::Macro(std::vector<std::shared_ptr<ast::Identifier>> parameters,
-             std::shared_ptr<ast::BlockStatement> body,
-             std::shared_ptr<Env> env)
-    : parameters_(std::move(parameters)),
-      body_(std::move(body)),
-      env_(std::move(env)) {}
-
-std::string Macro::to_string() const {
-  std::string out = "macro(";
-  for (const auto& param : parameters_) {
-    out += param->to_string() + ", ";
-  }
-  out += ") {\n" + body_->to_string() + "\n}";
-  return out;
-}
-
-bool Macro::operator==(const Object& other) const {
-  if (other.type() != ObjectType::kMacro) {
-    return false;
-  }
-  const auto& other_macro = dynamic_cast<const Macro&>(other);
-  if (parameters_.size() != other_macro.parameters_.size()) {
-    return false;
-  }
-  for (size_t i = 0; i < parameters_.size(); ++i) {
-    if (parameters_[i] != other_macro.parameters_[i]) {
-      return false;
-    }
-  }
-  return body_->operator==(*other_macro.body_);
-}
-
-bool Macro::operator!=(const Object& other) const { return !(*this == other); }
 
 }  // namespace monkey::object

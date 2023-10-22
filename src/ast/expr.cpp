@@ -197,41 +197,6 @@ bool HashLiteral::operator!=(const Node& other) const {
   return !(*this == other);
 }
 
-MacroLiteral::MacroLiteral(std::vector<std::shared_ptr<Identifier>> parameters,
-                           std::shared_ptr<BlockStatement> body)
-    : parameters_(std::move(parameters)), body_(std::move(body)) {}
-
-std::string MacroLiteral::to_string() const {
-  std::string parameters;
-  for (const auto& parameter : parameters_) {
-    parameters = fmt::format("{}, {}", parameters, parameter->to_string());
-  }
-  return fmt::format("macro({}) {{{}}}", parameters, body_->to_string());
-}
-
-bool MacroLiteral::operator==(const Node& other) const {
-  if (other.type() != NodeType::kMacroLiteral) {
-    return false;
-  }
-  const auto& other_macro_literal = dynamic_cast<const MacroLiteral&>(other);
-  if (parameters_.size() != other_macro_literal.parameters_.size()) {
-    return false;
-  }
-
-  if (!std::ranges::equal(parameters_, other_macro_literal.parameters_,
-                          [](const auto& lhs, const auto& rhs) {
-                            return lhs->operator==(*rhs);
-                          })) {
-    return false;
-  }
-
-  return body_->operator==(*other_macro_literal.body_);
-}
-
-bool MacroLiteral::operator!=(const Node& other) const {
-  return !(*this == other);
-}
-
 PrefixExpression::PrefixExpression(lexer::TokenType op,
                                    std::shared_ptr<Expression> right)
     : op_(op), right_(std::move(right)) {}

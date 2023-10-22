@@ -22,7 +22,6 @@ enum class NodeType {
   kStringLiteral,
   kArrayLiteral,
   kHashLiteral,
-  kMacroLiteral,
 
   kPrefixExpression,
   kInfixExpression,

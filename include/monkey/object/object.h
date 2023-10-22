@@ -26,8 +26,6 @@ enum class ObjectType {
   kHash,
   kBuiltin,
   kError,
-  kQuote,
-  kMacro,
 };
 
 std::string to_string(ObjectType type);
@@ -258,52 +256,6 @@ class Error : public Object {
 
  private:
   std::string message_;
-};
-
-class Quote : public Object {
- public:
-  explicit Quote(std::shared_ptr<ast::Node> node);
-
-  [[nodiscard]] ObjectType type() const override { return ObjectType::kQuote; }
-
-  [[nodiscard]] std::string to_string() const override;
-
-  bool operator==(const Object& other) const override;
-  bool operator!=(const Object& other) const override;
-
-  [[nodiscard]] const std::shared_ptr<ast::Node>& node() const { return node_; }
-
- private:
-  std::shared_ptr<ast::Node> node_;
-};
-
-class Macro : public Object {
- public:
-  Macro(std::vector<std::shared_ptr<ast::Identifier>> parameters,
-        std::shared_ptr<ast::BlockStatement> body, std::shared_ptr<Env> env);
-
-  [[nodiscard]] ObjectType type() const override { return ObjectType::kMacro; }
-
-  [[nodiscard]] std::string to_string() const override;
-
-  bool operator==(const Object& other) const override;
-  bool operator!=(const Object& other) const override;
-
-  [[nodiscard]] const std::vector<std::shared_ptr<ast::Identifier>>&
-  parameters() const {
-    return parameters_;
-  }
-
-  [[nodiscard]] const std::shared_ptr<ast::BlockStatement>& body() const {
-    return body_;
-  }
-
-  [[nodiscard]] const std::shared_ptr<Env>& env() const { return env_; }
-
- private:
-  std::vector<std::shared_ptr<ast::Identifier>> parameters_;
-  std::shared_ptr<ast::BlockStatement> body_;
-  std::shared_ptr<Env> env_;
 };
 
 }  // namespace monkey::object

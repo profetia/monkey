@@ -13,7 +13,6 @@ set(sources
     src/object/env.cpp
     src/eval/eval.cpp
     src/eval/builtin.cpp
-    src/eval/macro.cpp
 )
 
 set(exe_sources
@@ -36,7 +35,6 @@ set(headers
     include/monkey/object/env.h
     include/monkey/eval/eval.h
     include/monkey/eval/builtin.h
-    include/monkey/eval/macro.h
 )
 
 set(test_sources

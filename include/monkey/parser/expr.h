@@ -6,8 +6,9 @@
 #include <monkey/parser/reader.h>
 
 #include <functional>
+#include <memory>
 #include <unordered_map>
-#include <variant>
+#include <vector>
 
 namespace monkey::parser {
 
@@ -53,8 +54,6 @@ std::shared_ptr<ast::HashLiteral> parse_hash_literal(Reader& reader);
 
 std::shared_ptr<ast::FunctionLiteral> parse_function_literal(Reader& reader);
 
-std::shared_ptr<ast::MacroLiteral> parse_macro_literal(Reader& reader);
-
 std::shared_ptr<ast::PrefixExpression> parse_prefix_expression(Reader& reader);
 
 std::shared_ptr<ast::InfixExpression> parse_infix_expression(
@@ -89,7 +88,6 @@ const std::unordered_map<lexer::TokenType, PrefixHandler> kPrefixHandlers = {
     {lexer::TokenType::kLeftBracket, parse_array_literal},
     {lexer::TokenType::kLeftBrace, parse_hash_literal},
     {lexer::TokenType::kFunction, parse_function_literal},
-    {lexer::TokenType::kMacro, parse_macro_literal},
     {lexer::TokenType::kBang, parse_prefix_expression},
     {lexer::TokenType::kMinus, parse_prefix_expression},
     {lexer::TokenType::kLeftParen, parse_grouped_expression},

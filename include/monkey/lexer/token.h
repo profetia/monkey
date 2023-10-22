@@ -48,7 +48,6 @@ enum class TokenType {
   kIf,
   kElse,
   kReturn,
-  kMacro,
 };  // enum class TokenType
 
 std::string to_string(TokenType type);
@@ -76,7 +75,8 @@ const std::unordered_map<std::string, TokenType> kKeywords = {
     {"fn", TokenType::kFunction},   {"let", TokenType::kLet},
     {"true", TokenType::kTrue},     {"false", TokenType::kFalse},
     {"if", TokenType::kIf},         {"else", TokenType::kElse},
-    {"return", TokenType::kReturn}, {"macro", TokenType::kMacro}};
+    {"return", TokenType::kReturn},
+};
 
 const std::unordered_map<char, TokenType> kSingleCharTokens = {
     {'=', TokenType::kAssign},       {'+', TokenType::kPlus},

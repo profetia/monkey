@@ -109,19 +109,6 @@ std::shared_ptr<ast::FunctionLiteral> parse_function_literal(Reader& reader) {
                                                 std::move(body));
 }
 
-std::shared_ptr<ast::MacroLiteral> parse_macro_literal(Reader& reader) {
-  if (!reader.expect_peek(lexer::TokenType::kLeftParen)) {
-    return nullptr;
-  }
-  auto parameters = parse_function_parameters(reader);
-  if (!reader.expect_peek(lexer::TokenType::kLeftBrace)) {
-    return nullptr;
-  }
-  auto body = parse_block_statement(reader);
-  return std::make_unique<ast::MacroLiteral>(std::move(parameters),
-                                             std::move(body));
-}
-
 std::shared_ptr<ast::PrefixExpression> parse_prefix_expression(Reader& reader) {
   auto token = reader.current_token();
   reader.next_token();

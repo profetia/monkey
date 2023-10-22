@@ -156,30 +156,6 @@ class HashLiteral : public Expression {
       pairs_;
 };
 
-class MacroLiteral : public Expression {
- public:
-  MacroLiteral(std::vector<std::shared_ptr<Identifier>> parameters,
-               std::shared_ptr<BlockStatement> body);
-
-  [[nodiscard]] NodeType type() const override {
-    return NodeType::kMacroLiteral;
-  }
-  [[nodiscard]] const std::vector<std::shared_ptr<Identifier>>& parameters()
-      const {
-    return parameters_;
-  }
-  [[nodiscard]] const BlockStatement& body() const { return *body_; }
-
-  [[nodiscard]] std::string to_string() const override;
-
-  bool operator==(const Node& other) const override;
-  bool operator!=(const Node& other) const override;
-
- private:
-  std::vector<std::shared_ptr<Identifier>> parameters_;
-  std::shared_ptr<BlockStatement> body_;
-};
-
 class PrefixExpression : public Expression {
  public:
   PrefixExpression(lexer::TokenType op, std::shared_ptr<Expression> right);

@@ -23,7 +23,7 @@ Precedence get_precedence(lexer::TokenType type) {
   return Precedence::kLowest;
 }
 
-std::unique_ptr<ast::Expression> parse_expression(Reader& reader,
+std::shared_ptr<ast::Expression> parse_expression(Reader& reader,
                                                   Precedence precedence) {
   auto prefix_handler = kPrefixHandlers.find(reader.current_token().type());
   if (prefix_handler == kPrefixHandlers.end()) {
@@ -44,11 +44,11 @@ std::unique_ptr<ast::Expression> parse_expression(Reader& reader,
   return left_expression;
 }
 
-std::unique_ptr<ast::Identifier> parse_identifier(Reader& reader) {
+std::shared_ptr<ast::Identifier> parse_identifier(Reader& reader) {
   return std::make_unique<ast::Identifier>(reader.current_token().literal());
 }
 
-std::unique_ptr<ast::IntegerLiteral> parse_integer_literal(Reader& reader) {
+std::shared_ptr<ast::IntegerLiteral> parse_integer_literal(Reader& reader) {
   try {
     auto value = std::stoi(reader.current_token().literal());
     return std::make_unique<ast::IntegerLiteral>(value);
@@ -57,24 +57,24 @@ std::unique_ptr<ast::IntegerLiteral> parse_integer_literal(Reader& reader) {
   }
 }
 
-std::unique_ptr<ast::BooleanLiteral> parse_boolean_literal(Reader& reader) {
+std::shared_ptr<ast::BooleanLiteral> parse_boolean_literal(Reader& reader) {
   return std::make_unique<ast::BooleanLiteral>(
       reader.current_token_is(lexer::TokenType::kTrue));
 }
 
-std::unique_ptr<ast::StringLiteral> parse_string_literal(Reader& reader) {
+std::shared_ptr<ast::StringLiteral> parse_string_literal(Reader& reader) {
   return std::make_unique<ast::StringLiteral>(reader.current_token().literal());
 }
 
-std::unique_ptr<ast::ArrayLiteral> parse_array_literal(Reader& reader) {
-  std::vector<std::unique_ptr<ast::Expression>> elements =
+std::shared_ptr<ast::ArrayLiteral> parse_array_literal(Reader& reader) {
+  std::vector<std::shared_ptr<ast::Expression>> elements =
       parse_expression_list(reader, lexer::TokenType::kRightBracket);
   return std::make_unique<ast::ArrayLiteral>(std::move(elements));
 }
 
-std::unique_ptr<ast::HashLiteral> parse_hash_literal(Reader& reader) {
-  std::unordered_map<std::unique_ptr<ast::Expression>,
-                     std::unique_ptr<ast::Expression>>
+std::shared_ptr<ast::HashLiteral> parse_hash_literal(Reader& reader) {
+  std::unordered_map<std::shared_ptr<ast::Expression>,
+                     std::shared_ptr<ast::Expression>>
       pairs;
   while (!reader.peek_token_is(lexer::TokenType::kRightBrace)) {
     reader.next_token();
@@ -96,7 +96,7 @@ std::unique_ptr<ast::HashLiteral> parse_hash_literal(Reader& reader) {
   return std::make_unique<ast::HashLiteral>(std::move(pairs));
 }
 
-std::unique_ptr<ast::FunctionLiteral> parse_function_literal(Reader& reader) {
+std::shared_ptr<ast::FunctionLiteral> parse_function_literal(Reader& reader) {
   if (!reader.expect_peek(lexer::TokenType::kLeftParen)) {
     return nullptr;
   }
@@ -109,7 +109,7 @@ std::unique_ptr<ast::FunctionLiteral> parse_function_literal(Reader& reader) {
                                                 std::move(body));
 }
 
-std::unique_ptr<ast::MacroLiteral> parse_macro_literal(Reader& reader) {
+std::shared_ptr<ast::MacroLiteral> parse_macro_literal(Reader& reader) {
   if (!reader.expect_peek(lexer::TokenType::kLeftParen)) {
     return nullptr;
   }
@@ -122,7 +122,7 @@ std::unique_ptr<ast::MacroLiteral> parse_macro_literal(Reader& reader) {
                                              std::move(body));
 }
 
-std::unique_ptr<ast::PrefixExpression> parse_prefix_expression(Reader& reader) {
+std::shared_ptr<ast::PrefixExpression> parse_prefix_expression(Reader& reader) {
   auto token = reader.current_token();
   reader.next_token();
   auto right = parse_expression(reader, Precedence::kPrefix);
@@ -130,8 +130,8 @@ std::unique_ptr<ast::PrefixExpression> parse_prefix_expression(Reader& reader) {
                                                  std::move(right));
 }
 
-std::unique_ptr<ast::InfixExpression> parse_infix_expression(
-    Reader& reader, std::unique_ptr<ast::Expression> left) {
+std::shared_ptr<ast::InfixExpression> parse_infix_expression(
+    Reader& reader, std::shared_ptr<ast::Expression> left) {
   auto token = reader.current_token();
   auto precedence = get_precedence(token.type());
   reader.next_token();
@@ -140,8 +140,8 @@ std::unique_ptr<ast::InfixExpression> parse_infix_expression(
                                                 std::move(right));
 }
 
-std::unique_ptr<ast::IndexExpression> parse_index_expression(
-    Reader& reader, std::unique_ptr<ast::Expression> left) {
+std::shared_ptr<ast::IndexExpression> parse_index_expression(
+    Reader& reader, std::shared_ptr<ast::Expression> left) {
   reader.next_token();
   auto index = parse_expression(reader, Precedence::kLowest);
   if (!reader.expect_peek(lexer::TokenType::kRightBracket)) {
@@ -151,7 +151,7 @@ std::unique_ptr<ast::IndexExpression> parse_index_expression(
                                                 std::move(index));
 }
 
-std::unique_ptr<ast::IfExpression> parse_if_expression(Reader& reader) {
+std::shared_ptr<ast::IfExpression> parse_if_expression(Reader& reader) {
   auto token = reader.current_token();
   if (!reader.expect_peek(lexer::TokenType::kLeftParen)) {
     return nullptr;
@@ -165,7 +165,7 @@ std::unique_ptr<ast::IfExpression> parse_if_expression(Reader& reader) {
     return nullptr;
   }
   auto consequence = parse_block_statement(reader);
-  std::unique_ptr<ast::BlockStatement> alternative;
+  std::shared_ptr<ast::BlockStatement> alternative;
   if (reader.peek_token_is(lexer::TokenType::kElse)) {
     reader.next_token();
     if (!reader.expect_peek(lexer::TokenType::kLeftBrace)) {
@@ -177,14 +177,14 @@ std::unique_ptr<ast::IfExpression> parse_if_expression(Reader& reader) {
       std::move(condition), std::move(consequence), std::move(alternative));
 }
 
-std::unique_ptr<ast::CallExpression> parse_call_expression(
-    Reader& reader, std::unique_ptr<ast::Expression> function) {
+std::shared_ptr<ast::CallExpression> parse_call_expression(
+    Reader& reader, std::shared_ptr<ast::Expression> function) {
   auto arguments = parse_expression_list(reader, lexer::TokenType::kRightParen);
   return std::make_unique<ast::CallExpression>(std::move(function),
                                                std::move(arguments));
 }
 
-std::unique_ptr<ast::Expression> parse_grouped_expression(Reader& reader) {
+std::shared_ptr<ast::Expression> parse_grouped_expression(Reader& reader) {
   reader.next_token();
   auto expression = parse_expression(reader, Precedence::kLowest);
   if (!reader.expect_peek(lexer::TokenType::kRightParen)) {
@@ -193,9 +193,9 @@ std::unique_ptr<ast::Expression> parse_grouped_expression(Reader& reader) {
   return expression;
 }
 
-std::vector<std::unique_ptr<ast::Expression>> parse_expression_list(
+std::vector<std::shared_ptr<ast::Expression>> parse_expression_list(
     Reader& reader, lexer::TokenType end) {
-  std::vector<std::unique_ptr<ast::Expression>> expressions;
+  std::vector<std::shared_ptr<ast::Expression>> expressions;
   if (reader.peek_token_is(end)) {
     reader.next_token();
     return expressions;
@@ -213,9 +213,9 @@ std::vector<std::unique_ptr<ast::Expression>> parse_expression_list(
   return expressions;
 }
 
-std::vector<std::unique_ptr<ast::Identifier>> parse_function_parameters(
+std::vector<std::shared_ptr<ast::Identifier>> parse_function_parameters(
     Reader& reader) {
-  std::vector<std::unique_ptr<ast::Identifier>> parameters;
+  std::vector<std::shared_ptr<ast::Identifier>> parameters;
   if (reader.peek_token_is(lexer::TokenType::kRightParen)) {
     reader.next_token();
     return parameters;

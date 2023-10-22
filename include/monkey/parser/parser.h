@@ -12,10 +12,10 @@ class Parser {
  public:
   explicit Parser(const lexer::Lexer& lexer);
 
-  std::unique_ptr<ast::Program> parse_program();
+  std::shared_ptr<ast::Program> parse_program();
 
  private:
-  std::unique_ptr<Reader> reader_;
+  std::shared_ptr<Reader> reader_;
 };
 
 }  // namespace monkey::parser

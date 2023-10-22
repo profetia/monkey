@@ -105,8 +105,8 @@ bool ReturnValue::operator!=(const Object& other) const {
   return !(*this == other);
 }
 
-Function::Function(std::vector<std::unique_ptr<ast::Identifier>> parameters,
-                   std::unique_ptr<ast::BlockStatement> body,
+Function::Function(std::vector<std::shared_ptr<ast::Identifier>> parameters,
+                   std::shared_ptr<ast::BlockStatement> body,
                    std::shared_ptr<Env> env)
     : parameters_(std::move(parameters)),
       body_(std::move(body)),
@@ -240,7 +240,7 @@ bool Error::operator==(const Object& other) const {
 
 bool Error::operator!=(const Object& other) const { return !(*this == other); }
 
-Quote::Quote(std::unique_ptr<ast::Node> node) : node_(std::move(node)) {}
+Quote::Quote(std::shared_ptr<ast::Node> node) : node_(std::move(node)) {}
 
 std::string Quote::to_string() const {
   return "QUOTE(" + node_->to_string() + ")";
@@ -255,8 +255,8 @@ bool Quote::operator==(const Object& other) const {
 
 bool Quote::operator!=(const Object& other) const { return !(*this == other); }
 
-Macro::Macro(std::vector<std::unique_ptr<ast::Identifier>> parameters,
-             std::unique_ptr<ast::BlockStatement> body,
+Macro::Macro(std::vector<std::shared_ptr<ast::Identifier>> parameters,
+             std::shared_ptr<ast::BlockStatement> body,
              std::shared_ptr<Env> env)
     : parameters_(std::move(parameters)),
       body_(std::move(body)),

@@ -36,49 +36,49 @@ const std::unordered_map<lexer::TokenType, Precedence> kPrecedences = {
 
 Precedence get_precedence(lexer::TokenType type);
 
-std::unique_ptr<ast::Expression> parse_expression(Reader& reader,
+std::shared_ptr<ast::Expression> parse_expression(Reader& reader,
                                                   Precedence precedence);
 
-std::unique_ptr<ast::Identifier> parse_identifier(Reader& reader);
+std::shared_ptr<ast::Identifier> parse_identifier(Reader& reader);
 
-std::unique_ptr<ast::IntegerLiteral> parse_integer_literal(Reader& reader);
+std::shared_ptr<ast::IntegerLiteral> parse_integer_literal(Reader& reader);
 
-std::unique_ptr<ast::BooleanLiteral> parse_boolean_literal(Reader& reader);
+std::shared_ptr<ast::BooleanLiteral> parse_boolean_literal(Reader& reader);
 
-std::unique_ptr<ast::StringLiteral> parse_string_literal(Reader& reader);
+std::shared_ptr<ast::StringLiteral> parse_string_literal(Reader& reader);
 
-std::unique_ptr<ast::ArrayLiteral> parse_array_literal(Reader& reader);
+std::shared_ptr<ast::ArrayLiteral> parse_array_literal(Reader& reader);
 
-std::unique_ptr<ast::HashLiteral> parse_hash_literal(Reader& reader);
+std::shared_ptr<ast::HashLiteral> parse_hash_literal(Reader& reader);
 
-std::unique_ptr<ast::FunctionLiteral> parse_function_literal(Reader& reader);
+std::shared_ptr<ast::FunctionLiteral> parse_function_literal(Reader& reader);
 
-std::unique_ptr<ast::MacroLiteral> parse_macro_literal(Reader& reader);
+std::shared_ptr<ast::MacroLiteral> parse_macro_literal(Reader& reader);
 
-std::unique_ptr<ast::PrefixExpression> parse_prefix_expression(Reader& reader);
+std::shared_ptr<ast::PrefixExpression> parse_prefix_expression(Reader& reader);
 
-std::unique_ptr<ast::InfixExpression> parse_infix_expression(
-    Reader& reader, std::unique_ptr<ast::Expression> left);
+std::shared_ptr<ast::InfixExpression> parse_infix_expression(
+    Reader& reader, std::shared_ptr<ast::Expression> left);
 
-std::unique_ptr<ast::IndexExpression> parse_index_expression(
-    Reader& reader, std::unique_ptr<ast::Expression> left);
+std::shared_ptr<ast::IndexExpression> parse_index_expression(
+    Reader& reader, std::shared_ptr<ast::Expression> left);
 
-std::unique_ptr<ast::IfExpression> parse_if_expression(Reader& reader);
+std::shared_ptr<ast::IfExpression> parse_if_expression(Reader& reader);
 
-std::unique_ptr<ast::CallExpression> parse_call_expression(
-    Reader& reader, std::unique_ptr<ast::Expression> function);
+std::shared_ptr<ast::CallExpression> parse_call_expression(
+    Reader& reader, std::shared_ptr<ast::Expression> function);
 
-std::unique_ptr<ast::Expression> parse_grouped_expression(Reader& reader);
+std::shared_ptr<ast::Expression> parse_grouped_expression(Reader& reader);
 
-std::vector<std::unique_ptr<ast::Expression>> parse_expression_list(
+std::vector<std::shared_ptr<ast::Expression>> parse_expression_list(
     Reader& reader, lexer::TokenType end);
 
-std::vector<std::unique_ptr<ast::Identifier>> parse_function_parameters(
+std::vector<std::shared_ptr<ast::Identifier>> parse_function_parameters(
     Reader& reader);
 
-using PrefixHandler = std::function<std::unique_ptr<ast::Expression>(Reader&)>;
-using InfixHandler = std::function<std::unique_ptr<ast::Expression>(
-    Reader&, std::unique_ptr<ast::Expression>)>;
+using PrefixHandler = std::function<std::shared_ptr<ast::Expression>(Reader&)>;
+using InfixHandler = std::function<std::shared_ptr<ast::Expression>(
+    Reader&, std::shared_ptr<ast::Expression>)>;
 
 const std::unordered_map<lexer::TokenType, PrefixHandler> kPrefixHandlers = {
     {lexer::TokenType::kIdentifer, parse_identifier},

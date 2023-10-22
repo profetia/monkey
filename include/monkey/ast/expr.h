@@ -68,17 +68,17 @@ class BooleanLiteral : public Expression {
 
 class FunctionLiteral : public Expression {
  public:
-  FunctionLiteral(std::vector<std::unique_ptr<Identifier>> parameters,
-                  std::unique_ptr<BlockStatement> body);
+  FunctionLiteral(std::vector<std::shared_ptr<Identifier>> parameters,
+                  std::shared_ptr<BlockStatement> body);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kFunctionLiteral;
   }
-  [[nodiscard]] const std::vector<std::unique_ptr<Identifier>>& parameters()
+  [[nodiscard]] const std::vector<std::shared_ptr<Identifier>>& parameters()
       const {
     return parameters_;
   }
-  [[nodiscard]] const std::unique_ptr<BlockStatement>& body() const {
+  [[nodiscard]] const std::shared_ptr<BlockStatement>& body() const {
     return body_;
   }
 
@@ -88,8 +88,8 @@ class FunctionLiteral : public Expression {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::vector<std::unique_ptr<Identifier>> parameters_;
-  std::unique_ptr<BlockStatement> body_;
+  std::vector<std::shared_ptr<Identifier>> parameters_;
+  std::shared_ptr<BlockStatement> body_;
 };
 
 class StringLiteral : public Expression {
@@ -112,12 +112,12 @@ class StringLiteral : public Expression {
 
 class ArrayLiteral : public Expression {
  public:
-  explicit ArrayLiteral(std::vector<std::unique_ptr<Expression>> elements);
+  explicit ArrayLiteral(std::vector<std::shared_ptr<Expression>> elements);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kArrayLiteral;
   }
-  [[nodiscard]] const std::vector<std::unique_ptr<Expression>>& elements()
+  [[nodiscard]] const std::vector<std::shared_ptr<Expression>>& elements()
       const {
     return elements_;
   }
@@ -128,20 +128,20 @@ class ArrayLiteral : public Expression {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::vector<std::unique_ptr<Expression>> elements_;
+  std::vector<std::shared_ptr<Expression>> elements_;
 };
 
 class HashLiteral : public Expression {
  public:
-  explicit HashLiteral(std::unordered_map<std::unique_ptr<Expression>,
-                                          std::unique_ptr<Expression>>
+  explicit HashLiteral(std::unordered_map<std::shared_ptr<Expression>,
+                                          std::shared_ptr<Expression>>
                            pairs);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kHashLiteral;
   }
-  [[nodiscard]] const std::unordered_map<std::unique_ptr<Expression>,
-                                         std::unique_ptr<Expression>>&
+  [[nodiscard]] const std::unordered_map<std::shared_ptr<Expression>,
+                                         std::shared_ptr<Expression>>&
   pairs() const {
     return pairs_;
   }
@@ -152,19 +152,19 @@ class HashLiteral : public Expression {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::unordered_map<std::unique_ptr<Expression>, std::unique_ptr<Expression>>
+  std::unordered_map<std::shared_ptr<Expression>, std::shared_ptr<Expression>>
       pairs_;
 };
 
 class MacroLiteral : public Expression {
  public:
-  MacroLiteral(std::vector<std::unique_ptr<Identifier>> parameters,
-               std::unique_ptr<BlockStatement> body);
+  MacroLiteral(std::vector<std::shared_ptr<Identifier>> parameters,
+               std::shared_ptr<BlockStatement> body);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kMacroLiteral;
   }
-  [[nodiscard]] const std::vector<std::unique_ptr<Identifier>>& parameters()
+  [[nodiscard]] const std::vector<std::shared_ptr<Identifier>>& parameters()
       const {
     return parameters_;
   }
@@ -176,19 +176,19 @@ class MacroLiteral : public Expression {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::vector<std::unique_ptr<Identifier>> parameters_;
-  std::unique_ptr<BlockStatement> body_;
+  std::vector<std::shared_ptr<Identifier>> parameters_;
+  std::shared_ptr<BlockStatement> body_;
 };
 
 class PrefixExpression : public Expression {
  public:
-  PrefixExpression(lexer::TokenType op, std::unique_ptr<Expression> right);
+  PrefixExpression(lexer::TokenType op, std::shared_ptr<Expression> right);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kPrefixExpression;
   }
   [[nodiscard]] lexer::TokenType op() const { return op_; }
-  [[nodiscard]] const std::unique_ptr<Expression>& right() const {
+  [[nodiscard]] const std::shared_ptr<Expression>& right() const {
     return right_;
   }
 
@@ -199,22 +199,22 @@ class PrefixExpression : public Expression {
 
  private:
   lexer::TokenType op_;
-  std::unique_ptr<Expression> right_;
+  std::shared_ptr<Expression> right_;
 };
 
 class InfixExpression : public Expression {
  public:
-  InfixExpression(std::unique_ptr<Expression> left, lexer::TokenType op,
-                  std::unique_ptr<Expression> right);
+  InfixExpression(std::shared_ptr<Expression> left, lexer::TokenType op,
+                  std::shared_ptr<Expression> right);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kInfixExpression;
   }
-  [[nodiscard]] const std::unique_ptr<Expression>& left() const {
+  [[nodiscard]] const std::shared_ptr<Expression>& left() const {
     return left_;
   }
   [[nodiscard]] lexer::TokenType op() const { return op_; }
-  [[nodiscard]] const std::unique_ptr<Expression>& right() const {
+  [[nodiscard]] const std::shared_ptr<Expression>& right() const {
     return right_;
   }
 
@@ -224,23 +224,23 @@ class InfixExpression : public Expression {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::unique_ptr<Expression> left_;
+  std::shared_ptr<Expression> left_;
   lexer::TokenType op_;
-  std::unique_ptr<Expression> right_;
+  std::shared_ptr<Expression> right_;
 };
 
 class IndexExpression : public Expression {
  public:
-  IndexExpression(std::unique_ptr<Expression> left,
-                  std::unique_ptr<Expression> index);
+  IndexExpression(std::shared_ptr<Expression> left,
+                  std::shared_ptr<Expression> index);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kIndexExpression;
   }
-  [[nodiscard]] const std::unique_ptr<Expression>& left() const {
+  [[nodiscard]] const std::shared_ptr<Expression>& left() const {
     return left_;
   }
-  [[nodiscard]] const std::unique_ptr<Expression>& index() const {
+  [[nodiscard]] const std::shared_ptr<Expression>& index() const {
     return index_;
   }
 
@@ -250,26 +250,26 @@ class IndexExpression : public Expression {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::unique_ptr<Expression> left_;
-  std::unique_ptr<Expression> index_;
+  std::shared_ptr<Expression> left_;
+  std::shared_ptr<Expression> index_;
 };
 
 class IfExpression : public Expression {
  public:
-  IfExpression(std::unique_ptr<Expression> condition,
-               std::unique_ptr<BlockStatement> consequence,
-               std::unique_ptr<BlockStatement> alternative);
+  IfExpression(std::shared_ptr<Expression> condition,
+               std::shared_ptr<BlockStatement> consequence,
+               std::shared_ptr<BlockStatement> alternative);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kIfExpression;
   }
-  [[nodiscard]] const std::unique_ptr<Expression>& condition() const {
+  [[nodiscard]] const std::shared_ptr<Expression>& condition() const {
     return condition_;
   }
-  [[nodiscard]] const std::unique_ptr<BlockStatement>& consequence() const {
+  [[nodiscard]] const std::shared_ptr<BlockStatement>& consequence() const {
     return consequence_;
   }
-  [[nodiscard]] const std::unique_ptr<BlockStatement>& alternative() const {
+  [[nodiscard]] const std::shared_ptr<BlockStatement>& alternative() const {
     return alternative_;
   }
 
@@ -279,23 +279,23 @@ class IfExpression : public Expression {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::unique_ptr<Expression> condition_;
-  std::unique_ptr<BlockStatement> consequence_;
-  std::unique_ptr<BlockStatement> alternative_;
+  std::shared_ptr<Expression> condition_;
+  std::shared_ptr<BlockStatement> consequence_;
+  std::shared_ptr<BlockStatement> alternative_;
 };
 
 class CallExpression : public Expression {
  public:
-  CallExpression(std::unique_ptr<Expression> function,
-                 std::vector<std::unique_ptr<Expression>> arguments);
+  CallExpression(std::shared_ptr<Expression> function,
+                 std::vector<std::shared_ptr<Expression>> arguments);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kCallExpression;
   }
-  [[nodiscard]] const std::unique_ptr<Expression>& function() const {
+  [[nodiscard]] const std::shared_ptr<Expression>& function() const {
     return function_;
   }
-  [[nodiscard]] const std::vector<std::unique_ptr<Expression>>& arguments()
+  [[nodiscard]] const std::vector<std::shared_ptr<Expression>>& arguments()
       const {
     return arguments_;
   }
@@ -306,8 +306,8 @@ class CallExpression : public Expression {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::unique_ptr<Expression> function_;
-  std::vector<std::unique_ptr<Expression>> arguments_;
+  std::shared_ptr<Expression> function_;
+  std::vector<std::shared_ptr<Expression>> arguments_;
 };
 
 }  // namespace monkey::ast

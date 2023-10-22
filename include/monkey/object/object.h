@@ -122,8 +122,8 @@ class ReturnValue : public Object {
 
 class Function : public Object {
  public:
-  Function(std::vector<std::unique_ptr<ast::Identifier>> parameters,
-           std::unique_ptr<ast::BlockStatement> body, std::shared_ptr<Env> env);
+  Function(std::vector<std::shared_ptr<ast::Identifier>> parameters,
+           std::shared_ptr<ast::BlockStatement> body, std::shared_ptr<Env> env);
 
   [[nodiscard]] ObjectType type() const override {
     return ObjectType::kFunction;
@@ -134,20 +134,20 @@ class Function : public Object {
   bool operator==(const Object& other) const override;
   bool operator!=(const Object& other) const override;
 
-  [[nodiscard]] const std::vector<std::unique_ptr<ast::Identifier>>&
+  [[nodiscard]] const std::vector<std::shared_ptr<ast::Identifier>>&
   parameters() const {
     return parameters_;
   }
 
-  [[nodiscard]] const std::unique_ptr<ast::BlockStatement>& body() const {
+  [[nodiscard]] const std::shared_ptr<ast::BlockStatement>& body() const {
     return body_;
   }
 
   [[nodiscard]] const std::shared_ptr<Env>& env() const { return env_; }
 
  private:
-  std::vector<std::unique_ptr<ast::Identifier>> parameters_;
-  std::unique_ptr<ast::BlockStatement> body_;
+  std::vector<std::shared_ptr<ast::Identifier>> parameters_;
+  std::shared_ptr<ast::BlockStatement> body_;
   std::shared_ptr<Env> env_;
 };
 
@@ -262,7 +262,7 @@ class Error : public Object {
 
 class Quote : public Object {
  public:
-  explicit Quote(std::unique_ptr<ast::Node> node);
+  explicit Quote(std::shared_ptr<ast::Node> node);
 
   [[nodiscard]] ObjectType type() const override { return ObjectType::kQuote; }
 
@@ -271,16 +271,16 @@ class Quote : public Object {
   bool operator==(const Object& other) const override;
   bool operator!=(const Object& other) const override;
 
-  [[nodiscard]] const std::unique_ptr<ast::Node>& node() const { return node_; }
+  [[nodiscard]] const std::shared_ptr<ast::Node>& node() const { return node_; }
 
  private:
-  std::unique_ptr<ast::Node> node_;
+  std::shared_ptr<ast::Node> node_;
 };
 
 class Macro : public Object {
  public:
-  Macro(std::vector<std::unique_ptr<ast::Identifier>> parameters,
-        std::unique_ptr<ast::BlockStatement> body, std::shared_ptr<Env> env);
+  Macro(std::vector<std::shared_ptr<ast::Identifier>> parameters,
+        std::shared_ptr<ast::BlockStatement> body, std::shared_ptr<Env> env);
 
   [[nodiscard]] ObjectType type() const override { return ObjectType::kMacro; }
 
@@ -289,20 +289,20 @@ class Macro : public Object {
   bool operator==(const Object& other) const override;
   bool operator!=(const Object& other) const override;
 
-  [[nodiscard]] const std::vector<std::unique_ptr<ast::Identifier>>&
+  [[nodiscard]] const std::vector<std::shared_ptr<ast::Identifier>>&
   parameters() const {
     return parameters_;
   }
 
-  [[nodiscard]] const std::unique_ptr<ast::BlockStatement>& body() const {
+  [[nodiscard]] const std::shared_ptr<ast::BlockStatement>& body() const {
     return body_;
   }
 
   [[nodiscard]] const std::shared_ptr<Env>& env() const { return env_; }
 
  private:
-  std::vector<std::unique_ptr<ast::Identifier>> parameters_;
-  std::unique_ptr<ast::BlockStatement> body_;
+  std::vector<std::shared_ptr<ast::Identifier>> parameters_;
+  std::shared_ptr<ast::BlockStatement> body_;
   std::shared_ptr<Env> env_;
 };
 

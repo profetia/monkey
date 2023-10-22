@@ -55,7 +55,7 @@ std::string to_string(NodeType type) {
 
 std::string to_string(const Node& node) { return node.to_string(); }
 
-Program::Program(std::vector<std::unique_ptr<Statement>> statements)
+Program::Program(std::vector<std::shared_ptr<Statement>> statements)
     : statements_(std::move(statements)) {}
 
 std::string Program::to_string() const {

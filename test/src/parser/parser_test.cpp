@@ -19,21 +19,21 @@ namespace monkey::parser {
 template <typename T, typename... Args>
   requires std::derived_from<T, ast::Node> &&
            std::conjunction_v<std::is_base_of<T, Args>...>
-std::vector<std::unique_ptr<T>> make_vector(Args&&... args) {
-  auto vec = std::vector<std::unique_ptr<T>>{};
+std::vector<std::shared_ptr<T>> make_vector(Args&&... args) {
+  auto vec = std::vector<std::shared_ptr<T>>{};
   (vec.push_back(std::make_unique<Args>(std::move(args))), ...);
   return vec;
 }
 
 template <typename... Args>
   requires std::conjunction_v<
-      std::is_convertible<Args, std::pair<std::unique_ptr<ast::Expression>,
-                                          std::unique_ptr<ast::Expression>>>...>
-std::unordered_map<std::unique_ptr<ast::Expression>,
-                   std::unique_ptr<ast::Expression>>
+      std::is_convertible<Args, std::pair<std::shared_ptr<ast::Expression>,
+                                          std::shared_ptr<ast::Expression>>>...>
+std::unordered_map<std::shared_ptr<ast::Expression>,
+                   std::shared_ptr<ast::Expression>>
 make_map(Args&&... args) {
-  auto map = std::unordered_map<std::unique_ptr<ast::Expression>,
-                                std::unique_ptr<ast::Expression>>{};
+  auto map = std::unordered_map<std::shared_ptr<ast::Expression>,
+                                std::shared_ptr<ast::Expression>>{};
   (map.emplace(std::move(args.first), std::move(args.second)), ...);
   return map;
 }

@@ -70,8 +70,8 @@ bool BooleanLiteral::operator!=(const Node& other) const {
 }
 
 FunctionLiteral::FunctionLiteral(
-    std::vector<std::unique_ptr<Identifier>> parameters,
-    std::unique_ptr<BlockStatement> body)
+    std::vector<std::shared_ptr<Identifier>> parameters,
+    std::shared_ptr<BlockStatement> body)
     : parameters_(std::move(parameters)), body_(std::move(body)) {}
 
 std::string FunctionLiteral::to_string() const {
@@ -124,7 +124,7 @@ bool StringLiteral::operator!=(const Node& other) const {
   return !(*this == other);
 }
 
-ArrayLiteral::ArrayLiteral(std::vector<std::unique_ptr<Expression>> elements)
+ArrayLiteral::ArrayLiteral(std::vector<std::shared_ptr<Expression>> elements)
     : elements_(std::move(elements)) {}
 
 std::string ArrayLiteral::to_string() const {
@@ -158,7 +158,7 @@ bool ArrayLiteral::operator!=(const Node& other) const {
 }
 
 HashLiteral::HashLiteral(
-    std::unordered_map<std::unique_ptr<Expression>, std::unique_ptr<Expression>>
+    std::unordered_map<std::shared_ptr<Expression>, std::shared_ptr<Expression>>
         pairs)
     : pairs_(std::move(pairs)) {}
 
@@ -197,8 +197,8 @@ bool HashLiteral::operator!=(const Node& other) const {
   return !(*this == other);
 }
 
-MacroLiteral::MacroLiteral(std::vector<std::unique_ptr<Identifier>> parameters,
-                           std::unique_ptr<BlockStatement> body)
+MacroLiteral::MacroLiteral(std::vector<std::shared_ptr<Identifier>> parameters,
+                           std::shared_ptr<BlockStatement> body)
     : parameters_(std::move(parameters)), body_(std::move(body)) {}
 
 std::string MacroLiteral::to_string() const {
@@ -233,7 +233,7 @@ bool MacroLiteral::operator!=(const Node& other) const {
 }
 
 PrefixExpression::PrefixExpression(lexer::TokenType op,
-                                   std::unique_ptr<Expression> right)
+                                   std::shared_ptr<Expression> right)
     : op_(op), right_(std::move(right)) {}
 
 std::string PrefixExpression::to_string() const {
@@ -254,9 +254,9 @@ bool PrefixExpression::operator!=(const Node& other) const {
   return !(*this == other);
 }
 
-InfixExpression::InfixExpression(std::unique_ptr<Expression> left,
+InfixExpression::InfixExpression(std::shared_ptr<Expression> left,
                                  lexer::TokenType op,
-                                 std::unique_ptr<Expression> right)
+                                 std::shared_ptr<Expression> right)
     : left_(std::move(left)), op_(op), right_(std::move(right)) {}
 
 std::string InfixExpression::to_string() const {
@@ -279,8 +279,8 @@ bool InfixExpression::operator!=(const Node& other) const {
   return !(*this == other);
 }
 
-IndexExpression::IndexExpression(std::unique_ptr<Expression> left,
-                                 std::unique_ptr<Expression> index)
+IndexExpression::IndexExpression(std::shared_ptr<Expression> left,
+                                 std::shared_ptr<Expression> index)
     : left_(std::move(left)), index_(std::move(index)) {}
 
 std::string IndexExpression::to_string() const {
@@ -301,9 +301,9 @@ bool IndexExpression::operator!=(const Node& other) const {
   return !(*this == other);
 }
 
-IfExpression::IfExpression(std::unique_ptr<Expression> condition,
-                           std::unique_ptr<BlockStatement> consequence,
-                           std::unique_ptr<BlockStatement> alternative)
+IfExpression::IfExpression(std::shared_ptr<Expression> condition,
+                           std::shared_ptr<BlockStatement> consequence,
+                           std::shared_ptr<BlockStatement> alternative)
     : condition_(std::move(condition)),
       consequence_(std::move(consequence)),
       alternative_(std::move(alternative)) {}
@@ -332,8 +332,8 @@ bool IfExpression::operator!=(const Node& other) const {
 }
 
 CallExpression::CallExpression(
-    std::unique_ptr<Expression> function,
-    std::vector<std::unique_ptr<Expression>> arguments)
+    std::shared_ptr<Expression> function,
+    std::vector<std::shared_ptr<Expression>> arguments)
     : function_(std::move(function)), arguments_(std::move(arguments)) {}
 
 std::string CallExpression::to_string() const {

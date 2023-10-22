@@ -11,7 +11,7 @@
 
 namespace monkey::parser {
 
-std::unique_ptr<ast::Statement> parse_statement(Reader& reader) {
+std::shared_ptr<ast::Statement> parse_statement(Reader& reader) {
   switch (reader.current_token().type()) {
     case lexer::TokenType::kLet:
       return parse_let_statement(reader);
@@ -22,7 +22,7 @@ std::unique_ptr<ast::Statement> parse_statement(Reader& reader) {
   }
 }
 
-std::unique_ptr<ast::LetStatement> parse_let_statement(Reader& reader) {
+std::shared_ptr<ast::LetStatement> parse_let_statement(Reader& reader) {
   if (!reader.expect_peek(lexer::TokenType::kIdentifer)) {
     return nullptr;
   }
@@ -39,7 +39,7 @@ std::unique_ptr<ast::LetStatement> parse_let_statement(Reader& reader) {
   return std::make_unique<ast::LetStatement>(std::move(name), std::move(value));
 }
 
-std::unique_ptr<ast::ReturnStatement> parse_return_statement(Reader& reader) {
+std::shared_ptr<ast::ReturnStatement> parse_return_statement(Reader& reader) {
   reader.next_token();
   auto return_value = parse_expression(reader, Precedence::kLowest);
   if (reader.peek_token_is(lexer::TokenType::kSemicolon)) {
@@ -48,7 +48,7 @@ std::unique_ptr<ast::ReturnStatement> parse_return_statement(Reader& reader) {
   return std::make_unique<ast::ReturnStatement>(std::move(return_value));
 }
 
-std::unique_ptr<ast::ExpressionStatement> parse_expression_statement(
+std::shared_ptr<ast::ExpressionStatement> parse_expression_statement(
     Reader& reader) {
   auto expression = parse_expression(reader, Precedence::kLowest);
   if (reader.peek_token_is(lexer::TokenType::kSemicolon)) {
@@ -57,8 +57,8 @@ std::unique_ptr<ast::ExpressionStatement> parse_expression_statement(
   return std::make_unique<ast::ExpressionStatement>(std::move(expression));
 }
 
-std::unique_ptr<ast::BlockStatement> parse_block_statement(Reader& reader) {
-  auto statements = std::vector<std::unique_ptr<ast::Statement>>();
+std::shared_ptr<ast::BlockStatement> parse_block_statement(Reader& reader) {
+  auto statements = std::vector<std::shared_ptr<ast::Statement>>();
   reader.next_token();
   while (!reader.current_token_is(lexer::TokenType::kRightBrace) &&
          !reader.current_token_is(lexer::TokenType::kEOF)) {

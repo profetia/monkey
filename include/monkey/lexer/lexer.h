@@ -48,7 +48,7 @@ class Lexer::Iterator : public std::iterator<std::forward_iterator_tag, Token> {
  private:
   class IteratorImpl;
 
-  std::unique_ptr<IteratorImpl> impl_;
+  std::shared_ptr<IteratorImpl> impl_;
 };
 
 class Lexer::Iterator::IteratorImpl {

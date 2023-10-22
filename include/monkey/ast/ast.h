@@ -74,10 +74,10 @@ class IndexExpression;
 
 class Program : public Node {
  public:
-  explicit Program(std::vector<std::unique_ptr<Statement>> statements);
+  explicit Program(std::vector<std::shared_ptr<Statement>> statements);
 
   [[nodiscard]] NodeType type() const override { return NodeType::kProgram; }
-  [[nodiscard]] const std::vector<std::unique_ptr<Statement>>& statements()
+  [[nodiscard]] const std::vector<std::shared_ptr<Statement>>& statements()
       const {
     return statements_;
   }
@@ -88,7 +88,7 @@ class Program : public Node {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::vector<std::unique_ptr<Statement>> statements_;
+  std::vector<std::shared_ptr<Statement>> statements_;
 };
 
 }  // namespace monkey::ast

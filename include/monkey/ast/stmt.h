@@ -13,16 +13,16 @@ class Statement : public Node {};
 
 class LetStatement : public Statement {
  public:
-  LetStatement(std::unique_ptr<Identifier> name,
-               std::unique_ptr<Expression> value);
+  LetStatement(std::shared_ptr<Identifier> name,
+               std::shared_ptr<Expression> value);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kLetStatement;
   }
-  [[nodiscard]] const std::unique_ptr<Identifier>& name() const {
+  [[nodiscard]] const std::shared_ptr<Identifier>& name() const {
     return name_;
   }
-  [[nodiscard]] const std::unique_ptr<Expression>& value() const {
+  [[nodiscard]] const std::shared_ptr<Expression>& value() const {
     return value_;
   }
 
@@ -32,18 +32,18 @@ class LetStatement : public Statement {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::unique_ptr<Identifier> name_;
-  std::unique_ptr<Expression> value_;
+  std::shared_ptr<Identifier> name_;
+  std::shared_ptr<Expression> value_;
 };
 
 class ReturnStatement : public Statement {
  public:
-  explicit ReturnStatement(std::unique_ptr<Expression> return_value);
+  explicit ReturnStatement(std::shared_ptr<Expression> return_value);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kReturnStatement;
   }
-  [[nodiscard]] const std::unique_ptr<Expression>& return_value() const {
+  [[nodiscard]] const std::shared_ptr<Expression>& return_value() const {
     return return_value_;
   }
 
@@ -53,17 +53,17 @@ class ReturnStatement : public Statement {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::unique_ptr<Expression> return_value_;
+  std::shared_ptr<Expression> return_value_;
 };
 
 class ExpressionStatement : public Statement {
  public:
-  explicit ExpressionStatement(std::unique_ptr<Expression> expression);
+  explicit ExpressionStatement(std::shared_ptr<Expression> expression);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kExpressionStatement;
   }
-  [[nodiscard]] const std::unique_ptr<Expression>& expression() const {
+  [[nodiscard]] const std::shared_ptr<Expression>& expression() const {
     return expression_;
   }
 
@@ -73,17 +73,17 @@ class ExpressionStatement : public Statement {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::unique_ptr<Expression> expression_;
+  std::shared_ptr<Expression> expression_;
 };
 
 class BlockStatement : public Statement {
  public:
-  explicit BlockStatement(std::vector<std::unique_ptr<Statement>> statements);
+  explicit BlockStatement(std::vector<std::shared_ptr<Statement>> statements);
 
   [[nodiscard]] NodeType type() const override {
     return NodeType::kBlockStatement;
   }
-  [[nodiscard]] const std::vector<std::unique_ptr<Statement>>& statements()
+  [[nodiscard]] const std::vector<std::shared_ptr<Statement>>& statements()
       const {
     return statements_;
   }
@@ -94,7 +94,7 @@ class BlockStatement : public Statement {
   bool operator!=(const Node& other) const override;
 
  private:
-  std::vector<std::unique_ptr<Statement>> statements_;
+  std::vector<std::shared_ptr<Statement>> statements_;
 };
 
 }  // namespace monkey::ast

@@ -11,8 +11,8 @@
 
 namespace monkey::ast {
 
-LetStatement::LetStatement(std::unique_ptr<Identifier> name,
-                           std::unique_ptr<Expression> value)
+LetStatement::LetStatement(std::shared_ptr<Identifier> name,
+                           std::shared_ptr<Expression> value)
     : name_(std::move(name)), value_(std::move(value)) {}
 
 std::string LetStatement::to_string() const {
@@ -32,7 +32,7 @@ bool LetStatement::operator!=(const Node& other) const {
   return !(*this == other);
 }
 
-ReturnStatement::ReturnStatement(std::unique_ptr<Expression> return_value)
+ReturnStatement::ReturnStatement(std::shared_ptr<Expression> return_value)
     : return_value_(std::move(return_value)) {}
 
 std::string ReturnStatement::to_string() const {
@@ -51,7 +51,7 @@ bool ReturnStatement::operator!=(const Node& other) const {
   return !(*this == other);
 }
 
-ExpressionStatement::ExpressionStatement(std::unique_ptr<Expression> expression)
+ExpressionStatement::ExpressionStatement(std::shared_ptr<Expression> expression)
     : expression_(std::move(expression)) {}
 
 std::string ExpressionStatement::to_string() const {
@@ -72,7 +72,7 @@ bool ExpressionStatement::operator!=(const Node& other) const {
 }
 
 BlockStatement::BlockStatement(
-    std::vector<std::unique_ptr<Statement>> statements)
+    std::vector<std::shared_ptr<Statement>> statements)
     : statements_(std::move(statements)) {}
 
 std::string BlockStatement::to_string() const {

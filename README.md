@@ -1,206 +1,146 @@
-[![Actions Status](https://github.com/filipdutescu/modern-cpp-template/workflows/MacOS/badge.svg)](https://github.com/filipdutescu/modern-cpp-template/actions)
-[![Actions Status](https://github.com/filipdutescu/modern-cpp-template/workflows/Windows/badge.svg)](https://github.com/filipdutescu/modern-cpp-template/actions)
-[![Actions Status](https://github.com/filipdutescu/modern-cpp-template/workflows/Ubuntu/badge.svg)](https://github.com/filipdutescu/modern-cpp-template/actions)
-[![codecov](https://codecov.io/gh/filipdutescu/modern-cpp-template/branch/master/graph/badge.svg)](https://codecov.io/gh/filipdutescu/modern-cpp-template)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/filipdutescu/modern-cpp-template)](https://github.com/filipdutescu/modern-cpp-template/releases)
+# Monkey interpreter
 
-# Modern C++ Template
+Monkey programming language interpreter designed in [_Writing An Interpreter In Go_](https://interpreterbook.com/), implemented in modern C++. While the original Monkey interpreter is written in Go.
 
-A quick C++ template for modern CMake projects, aimed to be an easy to use
-starting point.
 
-This is my personal take on such a type of template, thus I might not use the
-best practices or you might disagree with how I do things. Any and all feedback
-is greatly appreciated!
+## Build
 
-## Features
+The implementation of the interpreter is done in C++ and the build chain uses
+CMake. See [CMake](https://cmake.org/) for more information.
 
-* Modern **CMake** configuration and project, which, to the best of my
-knowledge, uses the best practices,
+Use the steps below to build and run the interpreter. The procedure need a
+Unix-like build environment. On Windows it is possible to use
+[Cygwin](https://www.cygwin.com/). Make sure to include a compiler for C++ and
+CMake.
 
-* An example of a **Clang-Format** config, inspired from the base *Google* model,
-with minor tweaks. This is aimed only as a starting point, as coding style
-is a subjective matter, everyone is free to either delete it (for the *LLVM*
-default) or supply their own alternative,
+    mkdir build
+    cd build
+    cmake ..
+    make all -j
 
-* **Static analyzers** integration, with *Clang-Tidy* and *Cppcheck*, the former
-being the default option,
+This will build an executable in the folder build/bin/Debug.
 
-* **Doxygen** support, through the `ENABLE_DOXYGEN` option, which you can enable
-if you wish to use it,
+## Getting started with Monkey
 
-* **Unit testing** support, through *GoogleTest* (with an option to enable
-*GoogleMock*) or *Catch2*,
+### Variable bindings and number types
 
-* **Code coverage**, enabled by using the `ENABLE_CODE_COVERAGE` option, through
-*Codecov* CI integration,
+You can define variables using `let` keyword. Supported number types are integers and floating-point numbers.
 
-* **Package manager support**, with *Conan* and *Vcpkg*, through their respective
-options
-
-* **CI workflows for Windows, Linux and MacOS** using *GitHub Actions*, making
-use of the caching features, to ensure minimum run time,
-
-* **.md templates** for: *README*, *Contributing Guideliness*,
-*Issues* and *Pull Requests*,
-
-* **Permissive license** to allow you to integrate it as easily as possible. The
-template is licensed under the [Unlicense](https://unlicense.org/),
-
-* Options to build as a header-only library or executable, not just a static or
-shared library.
-
-* **Ccache** integration, for speeding up rebuild times
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local
-machine for development and testing purposes.
-
-### Prerequisites
-
-This project is meant to be only a template, thus versions of the software used
-can be change to better suit the needs of the developer(s). If you wish to use the
-template *as-is*, meaning using the versions recommended here, then you will need:
-
-* **CMake v3.15+** - found at [https://cmake.org/](https://cmake.org/)
-
-* **C++ Compiler** - needs to support at least the **C++17** standard, i.e. *MSVC*,
-*GCC*, *Clang*
-
-> ***Note:*** *You also need to be able to provide ***CMake*** a supported
-[generator](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html).*
-
-### Installing
-
-It is fairly easy to install the project, all you need to do is clone if from
-[GitHub](https://github.com/filipdutescu/modern-cpp-template) or
-[generate a new repository from it](https://github.com/filipdutescu/modern-cpp-template/generate)
-(also on **GitHub**).
-
-If you wish to clone the repository, rather than generate from it, you simply need
-to run:
-
-```bash
-git clone https://github.com/filipdutescu/modern-cpp-template/
+```sh
+>> let a = 1;
+>> a
+1
+>> let b = 0.5;
+>> b
+0.5
 ```
 
-After finishing getting a copy of the project, with any of the methods above, create
-a new folder in the `include/` folder, with the name of your project.  Edit
-`cmake/SourcesAndHeaders.cmake` to add your files.
+### Arithmetic expressions
 
-You will also need to rename the `cmake/ProjectConfig.cmake.in` file to start with
-the ***exact name of your project***. Such as `cmake/MyNewProjectConfig.cmake.in`.
-You should also make the same changes in the GitHub workflows provided, notably
-[`.github/workflows/ubuntu.yml`](.github/workflows/ubuntu.yml), in which you should
-replace the CMake option `-DProject_ENABLE_CODE_COVERAGE=1` to
-`-DMyNewProject_ENABLE_CODE_COVERAGE=1`.
+You can do usual arithmetic operations against numbers, such as `+`, `-`, `*` and `/`. 
 
-Finally, change `"Project"` from `CMakeLists.txt`, from
-
-```cmake
-project(
-  "Project"
-  VERSION 0.1.0
-  LANGUAGES CXX
-)
+```sh
+>> let a = 10;
+>> let b = a * 2;
+>> (a + b) / 2 - 3;
+12
+>> let c = 2.5;
+>> b + c
+22.5
 ```
 
-to the ***exact name of your project***, i.e. using the previous name it will become:
+### If expressions
 
-```cmake
-project(
-  MyNewProject
-  VERSION 0.1.0
-  LANGUAGES CXX
-)
+You can use `if` and `else` keywords for conditional expressions. The last value in an executed block are returned from the expression.
+
+```sh
+>> let a = 10;
+>> let b = a * 2;
+>> let c = if (b > a) { 99 } else { 100 };
+>> c
+99
 ```
 
-To install an already built project, you need to run the `install` target with CMake.
-For example:
+### Functions and closures
 
-```bash
-cmake --build build --target install --config Release
+You can define functions using `fn` keyword. All functions are closures in Monkey and you must use `let` along with `fn` to bind a closure to a variable. Closures enclose an environment where they are defined, and are evaluated in *the* environment when called. The last value in an executed function body are returned as a return value.
 
-# a more general syntax for that command is:
-cmake --build <build_directory> --target install --config <desired_config>
+```sh
+>> let multiply = fn(x, y) { x * y };
+>> multiply(50 / 2, 1 * 2)
+50
+>> fn(x) { x + 10 }(10)
+20
+>> let newAdder = fn(x) { fn(y) { x + y }; };
+>> let addTwo = newAdder(2);
+>> addTwo(3);
+5
+>> let sub = fn(a, b) { a - b };
+>> let applyFunc = fn(a, b, func) { func(a, b) };
+>> applyFunc(10, 2, sub);
+8
 ```
 
-## Building the project
+### Strings
 
-To build the project, all you need to do, ***after correctly
-[installing the project](README.md#Installing)***, is run a similar **CMake** routine
-to the the one below:
+You can build strings using a pair of double quotes `""`. Strings are immutable values just like numbers. You can concatenate strings with `+` operator.
 
-```bash
-mkdir build/ && cd build/
-cmake .. -DCMAKE_INSTALL_PREFIX=/absolute/path/to/custom/install/directory
-cmake --build . --target install
+```sh
+>> let makeGreeter = fn(greeting) { fn(name) { greeting + " " + name + "!" } };
+>> let hello = makeGreeter("Hello");
+>> hello("John");
+Hello John!
 ```
 
-> ***Note:*** *The custom ``CMAKE_INSTALL_PREFIX`` can be omitted if you wish to
-install in [the default install location](https://cmake.org/cmake/help/latest/module/GNUInstallDirs.html).*
+### Arrays
 
-More options that you can set for the project can be found in the
-[`cmake/StandardSettings.cmake` file](cmake/StandardSettings.cmake). For certain
-options additional configuration may be needed in their respective `*.cmake` files
-(i.e. Conan needs the `CONAN_REQUIRES` and might need the `CONAN_OPTIONS` to be setup
-for it work correctly; the two are set in the [`cmake/Conan.cmake` file](cmake/Conan.cmake)).
+You can build arrays using square brackets `[]`. Arrays can contain any type of values, such as integers, strings, even arrays and functions (closures). To get an element at an index from an array, use `array[index]` syntax.
 
-## Generating the documentation
-
-In order to generate documentation for the project, you need to configure the build
-to use Doxygen. This is easily done, by modifying the workflow shown above as follows:
-
-```bash
-mkdir build/ && cd build/
-cmake .. -D<project_name>_ENABLE_DOXYGEN=1 -DCMAKE_INSTALL_PREFIX=/absolute/path/to/custom/install/directory
-cmake --build . --target doxygen-docs
+```sh
+>> let myArray = ["Thorsten", "Ball", 28, fn(x) { x * x }];
+>> myArray[0]
+Thorsten
+>> myArray[4 - 2]
+28
+>> myArray[3](2);
+4
 ```
 
-> ***Note:*** *This will generate a `docs/` directory in the **project's root directory**.*
+### Hash tables
 
-## Running the tests
+You can build hash tables using curly brackets `{}`. Hash literals are `{key1: value1, key2: value2, ...}`. You can use numbers, strings and booleans as keys, and any type of objects as values. To get a value of a key from a hash table, use `hash[key]` syntax.
 
-By default, the template uses [Google Test](https://github.com/google/googletest/)
-for unit testing. Unit testing can be disabled in the options, by setting the
-`ENABLE_UNIT_TESTING` (from
-[cmake/StandardSettings.cmake](cmake/StandardSettings.cmake)) to be false. To run
-the tests, simply use CTest, from the build directory, passing the desire
-configuration for which to run tests for. An example of this procedure is:
-
-```bash
-cd build          # if not in the build directory already
-ctest -C Release  # or `ctest -C Debug` or any other configuration you wish to test
-
-# you can also run tests with the `-VV` flag for a more verbose output (i.e.
-#GoogleTest output as well)
+```sh
+>> let myHash = {"name": "Jimmy", "age": 72, true: "yes, a boolean", 99: "correct, an integer"};
+>> myHash["name"]
+Jimmy
+>> myHash["age"]
+72
+>> myHash[true]
+yes, a boolean
+>> myHash[99]
+correct, an integer
 ```
 
-### End to end tests
+### Built-in functions
 
-If applicable, should be presented here.
+There are many built-in functions in Monkey, for example `len()`, `first()` and `last()`.
 
-### Coding style tests
-
-If applicable, should be presented here.
-
-## Contributing
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our how you can
-become a contributor and the process for submitting pull requests to us.
-
-## Versioning
-
-This project makes use of [SemVer](http://semver.org/) for versioning. A list of
-existing versions can be found in the
-[project's releases](https://github.com/filipdutescu/modern-cpp-template/releases).
-
-## Authors
-
-* **Filip-Ioan Dutescu** - [@filipdutescu](https://github.com/filipdutescu)
-
-## License
-
-This project is licensed under the [Unlicense](https://unlicense.org/) - see the
-[LICENSE](LICENSE) file for details
+```sh
+>> len("hello");
+5
+>> let myArray = ["one", "two", "three"];
+>> len(myArray)
+3
+>> first(myArray)
+one
+>> rest(myArray)
+[two, three]
+>> last(myArray)
+three
+>> push(myArray, "four")
+[one, two, three, four]
+>> puts("Hello World")
+Hello World
+null
+```

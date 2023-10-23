@@ -27,12 +27,20 @@ static const std::string kMonkey = R"(
 )";
 
 void print_error(const std::string& why) {
-  fmt::print("{}\nWoops! We ran into some monkey business here!\n", kMonkey);
+  fmt::print("Woops! We ran into some monkey business here!\n");
   fmt::print("{}\n", why);
+}
+
+void print_preface() {
+  fmt::print("{}\n", kMonkey);
+  fmt::print("Welcome to the Monkey programming language!\n");
+  fmt::print("See https://monkeylang.org/ for more information\n");
+  fmt::print("Feel free to type in commands\n");
 }
 
 int main() {
   auto env = std::make_shared<monkey::object::Env>();
+  print_preface();
   while (true) {
     fmt::print("{}", kPrompt);
     std::string input;
